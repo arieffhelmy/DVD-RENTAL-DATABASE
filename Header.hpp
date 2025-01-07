@@ -16,11 +16,11 @@ class DVD {
 public:
     string title;
     string genre;
-    int releaseYear;
+    int year;
     bool isAvailable;
 
     // Constructor
-    DVD(string t, string g, int y) : title(t), genre(g), releaseYear(y), isAvailable(true) {}
+    DVD(string t, string g, int y) : title(t), genre(g), year(y), isAvailable(true) {}
 };
 
 // Customer Class
@@ -46,14 +46,13 @@ public:
 class Rental {
 public:
     int customerID;
-    string dvdTitle;
+    string DVDTitle;
 
     // Constructor
-    Rental(int id, string title) : customerID(id), dvdTitle(title) {}
+    Rental(int id, string title) : customerID(id), DVDTitle(title) {}
 };
 
 int displayMenu(int);
-
 
 
 #endif
