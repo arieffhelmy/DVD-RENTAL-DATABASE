@@ -12,6 +12,13 @@ int main() {
         cin >> choice;
         cin.ignore();
         
+             if (cin.fail()) {
+            cin.clear(); // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+            cout << "Invalid input! Please enter a valid number.\n";
+            continue; // Skip the rest of the loop and prompt again
+        }
+        
         switch (choice) {
         case 1:
             //Check Availability DVD();
