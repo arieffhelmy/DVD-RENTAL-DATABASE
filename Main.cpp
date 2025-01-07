@@ -1,13 +1,17 @@
 #include <iostream>
 
 #include "Header.hpp"
+#include "Register&SearchCustID.cpp"
 
 int main() {
     int choice;
 
     do {
-        displayMenu(choice);
-
+        int displayMenu(choice);
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+        
         switch (choice) {
         case 1:
             //Check Availability DVD();
@@ -16,10 +20,10 @@ int main() {
             //Add DVD();
             break;
         case 3:
-            //register New Customer();
+            registerCustomer();
             break;
         case 4:
-            //Search Customer ID();
+            searchCustomer();
             break;
         case 5:
             //rent DVD();

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -27,17 +28,20 @@ public:
 class Customer {
 public:
     string name;
-    int customerID;
+    string customerID;
+    string phone;
+    string email;
+
 
     // Constructor
-    Customer(string n, int id) : name(n), customerID(id) {}
-
+    Customer(string n,  string customerID, string phone, string email);
+    Customer() : name(""), phone(""), email(""), customerID("") {}
     // Member functions
     string getName() const {
         return name;
     }
 
-    int getID() const {
+    string getID() const {
         return customerID;
     }
 };
