@@ -1,8 +1,13 @@
 #ifndef HEADER_HPP
 #define HEADER_HPP
 
-#include <string>
 #include <iostream>
+#include <vector>
+#include <string>
+#include <limits>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -47,6 +52,7 @@ public:
     Rental(int id, string title) : customerID(id), dvdTitle(title) {}
 };
 
+int displayMenu(int);
 
 
 
