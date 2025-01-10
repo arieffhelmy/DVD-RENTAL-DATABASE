@@ -74,7 +74,7 @@ void importCustomersFromCSV()
 
     if (!file.is_open()) 
     {
-        std::cout << "\nError: Unable to open customer data file.";
+        std::cout << "\nError: Unable to open customer data file. ";
         return;
     }
 
