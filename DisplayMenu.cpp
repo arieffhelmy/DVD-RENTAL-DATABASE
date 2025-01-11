@@ -1,6 +1,6 @@
 #include "Header.hpp"
 
-int displayMenu(int choice) 
+void displayMenu() 
 {
     cout << "\n--- DVD Rental System ---\n";
     cout << "1. Check Availability DVD\n";
@@ -12,6 +12,4 @@ int displayMenu(int choice)
     cout << "7. Customer Data\n";
     cout << "8. Rental History\n";
     cout << "9. Exit\n";
-
-    return 0;
 }

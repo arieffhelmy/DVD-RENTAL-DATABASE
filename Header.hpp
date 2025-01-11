@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_map>
+#include <ctime>
 
 using namespace std;
 
@@ -56,10 +57,13 @@ public:
     Rental(int id, string title) : customerID(id), DVDTitle(title) {}
 };
 
-int displayMenu(int);
+void displayMenu();
 void CheckAvailability();
 void AddDVD();
-void returnDVD();  
+void rentDVD();
+void returnDVD();
+bool CustomerID();
+
 
 
 #endif
