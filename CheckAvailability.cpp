@@ -42,7 +42,7 @@ void CheckAvailability()
             cout << "No movies found for the title: " << findtitle << '\n';
             cout << "You can try by find specidic genre. \n\n";
 
-            cout << "What is the genre of the movie: ";
+            cout << "What is the genre of the movie (Action, Romance, Horror, Adventure, Fantasy): ";
             cin >> findgenre;
 
             bool foundgenre = false;
