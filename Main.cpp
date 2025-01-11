@@ -20,10 +20,10 @@ int main() {
             AddDVD();
             break;
         case 3:
-            //registerCustomer();
+            registerCustomer();
             break;
         case 4:
-            //searchCustomer();
+            searchCustomer();
             break;
         case 5:
             rentDVD();

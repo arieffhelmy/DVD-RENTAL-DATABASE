@@ -63,6 +63,8 @@ public:
 void displayMenu();
 void CheckAvailability();
 void AddDVD();
+void registerCustomer();
+void searchCustomer();
 void rentDVD();
 void returnDVD();
 bool CustomerID();
