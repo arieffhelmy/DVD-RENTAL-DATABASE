@@ -65,6 +65,8 @@ void CheckAvailability();
 void registerCustomer();
 void searchCustomer();
 void AddDVD();
+void registerCustomer();
+void searchCustomer();
 void rentDVD();
 void returnDVD();
 bool CustomerID();
