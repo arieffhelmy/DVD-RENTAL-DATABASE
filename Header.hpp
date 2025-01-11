@@ -25,7 +25,6 @@ public:
     //DVD(string t, string g, int y) : title(t), genre(g), year(y), isAvailable(true) {}
 };
 
-// Customer Class
 class Customer {
 public:
     string name;
@@ -33,10 +32,13 @@ public:
     string phone;
     string email;
 
+    // Constructor with correct initialization order
+    Customer(string n, string id, string ph, string em)
+        : name(n), customerID(id), phone(ph), email(em) {}
 
-    // Constructor
-    Customer(string n,  string customerID, string phone, string email);
-    Customer() : name(""), phone(""), email(""), customerID("") {}
+    // Default Constructor
+    Customer() : name(""), customerID(""), phone(""), email("") {}
+
     // Member functions
     string getName() const {
         return name;
@@ -46,6 +48,7 @@ public:
         return customerID;
     }
 };
+
 
 // Rental Class
 class Rental {
