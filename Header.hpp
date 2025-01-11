@@ -17,11 +17,11 @@ class DVD {
 public:
     string title;
     string genre;
-    int year;
-    bool isAvailable;
+    string year;
+    int nostock;
 
     // Constructor
-    DVD(string t, string g, int y) : title(t), genre(g), year(y), isAvailable(true) {}
+    //DVD(string t, string g, int y) : title(t), genre(g), year(y), isAvailable(true) {}
 };
 
 // Customer Class

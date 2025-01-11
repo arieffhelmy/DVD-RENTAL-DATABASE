@@ -1,124 +1,79 @@
 #include "Header.hpp"
-// Return DVD
-struct DVD 
-{
-    std::string title;
-    bool isAvailable;
-};
-
-struct Rental 
-{
-    int customerID;
-    std::string dvdTitle;
-};
-
-struct Customer 
-{
-    std::string name;
-    int id;
-};
-
-std::vector<DVD> dvdCollection;
-std::vector<Rental> rentals;
-std::vector<Customer> customers;
-
-int main() 
-{
-
-    dvdCollection.push_back({"Movie A", false});
-    rentals.push_back({101, "Movie A"});
-
-    importCustomersFromCSV();
-    importRentalsFromCSV();
-    returnDVD();
-
-    return 0;
-}
 
 void returnDVD() 
 {
-    std::string dvdTitle;
-    std::cout << "\nEnter DVD title to return : ";
-    std::cin.ignore();
-    std::getline(std::cin, dvdTitle);
+    // Name:
+    // Matrix Number: 
+    // Function: 
 
-    auto rentalIt = std::find_if(rentals.begin(), rentals.end(), [&](Rental& r) 
-    {
-        return r.dvdTitle == dvdTitle;
-    });
+    DVD dvd;
 
-    if (rentalIt == rentals.end()) 
-    {
-        std::cout << "\nRental record not found! ";
-        return;
-    }
+    string findtitle;
+    string line;
+    stringstream updatedContent;
 
-    auto dvdIt = std::find_if(dvdCollection.begin(), dvdCollection.end(), [&](DVD& d) 
-    {
-        return d.title == dvdTitle;
-    });
-
-    if (dvdIt != dvdCollection.end()) 
-    {
-        dvdIt->isAvailable = true;
-        std::cout << "\nDVD marked as returned and available again! ";
-    }
-
-    rentals.erase(rentalIt);
-}
-
-void importCustomersFromCSV() 
-{
-    std::ifstream file("customer_data.csv");
-    std::string line;
+    // Open the file for reading and writing (in text mode)
+    fstream file("DVD_Rental_Database.csv", ios::in | ios::out);
 
     if (!file.is_open()) 
     {
-        std::cout << "\nError: Unable to open customer data file. ";
+        cout << "ERROR: Unable to open the file." << '\n';
+        return; 
+    }
+
+    bool foundtitle = false;
+
+    // Prompt user to enter the movie title
+    cout << "What is the name of the movie: ";
+    getline(cin, findtitle);
+
+    // Read the entire file content and process it line by line
+    while (getline(file, line)) 
+    {
+        stringstream ss(line);  // Using stringstream to process each line
+
+        // Read the title, genre, year, and stock from the line
+        getline(ss, dvd.title, ',');
+        getline(ss, dvd.genre, ',');
+        getline(ss, dvd.year, ',');
+        ss >> dvd.nostock;
+
+        // Update stock if the title matches
+        if (findtitle == dvd.title) 
+        {
+            foundtitle = true;
+            dvd.nostock++;  // Increment the stock for the movie
+        }
+
+        // Write the modified line to the new content
+        updatedContent << dvd.title << ',' << dvd.genre << ',' << dvd.year << ',' << dvd.nostock << '\n';
+    }
+
+    file.close(); // Close the file after reading
+
+    // If the movie was found, inform the user
+    if (!foundtitle)
+    {
+        cout << "Movie not found: " << findtitle << '\n';
+    }
+    else
+    {
+        cout << "The stock for '" << findtitle << "' has been updated." << '\n';
+    }
+
+    // Now, open the file for writing (to overwrite the old content with the updated one)
+    file.open("DVD_Rental_Database.csv", ios::out | ios::trunc);  // Open in write mode and truncate the file
+
+    if (!file.is_open()) 
+    {
+        cout << "ERROR: Unable to open the file for writing." << '\n';
         return;
     }
 
-    std::getline(file, line); 
-    while (std::getline(file, line)) 
-    {
-        std::stringstream ss(line);
-        std::string idStr, name;
 
-        std::getline(ss, idStr, ',');
-        std::getline(ss, name);
-
-        int id = std::stoi(idStr);
-        customers.push_back({name, id});
-    }
+    file << updatedContent.str();
 
     file.close();
-    std::cout << "\nCustomer import finished.";
-}
 
-void importRentalsFromCSV() 
-{
-    std::ifstream inFile("rental_history.csv");
-    std::string line;
-
-    if (!inFile.is_open()) 
-    {
-        std::cout << "\nError: Unable to open rental history file.";
-        return;
-    }
-
-    std::getline(inFile, line); 
-    while (std::getline(inFile, line)) 
-    {
-        std::stringstream ss(line);
-        std::string customerIDStr, dvdTitle;
-
-        std::getline(ss, customerIDStr, ',');
-        std::getline(ss, dvdTitle);
-
-        int customerID = std::stoi(customerIDStr);
-        rentals.push_back({customerID, dvdTitle});
-    }
-
-    inFile.close();
-    std::cout << "\nRental history imported successfully.";
+    return;
 }

@@ -5,7 +5,9 @@
 //FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
 
 void CheckAvailability() 
-{   
+{
+    DVD dvd;
+
     ifstream ip("DVD_Rental_Database.csv");
 
     if (!ip.is_open()) 
@@ -14,62 +16,70 @@ void CheckAvailability()
         return; 
     }
 
-    string title, genre, year, nostock, findgenre, findtitle;
+    string findgenre, findtitle;
 
     cout << "What is the name of the movie: ";
     getline(cin, findtitle);
 
     bool foundtitle = false;
 
-    while(getline(ip, title, ','))
+    // Searching by title
+    while(getline(ip, dvd.title, ',')) 
     {
-        getline(ip, genre, ',');
-        getline(ip, year, ',');
-        getline(ip, nostock, '\n');
+        getline(ip, dvd.genre, ',');
+        getline(ip, dvd.year, ',');
+        ip >> dvd.nostock;
+        ip.ignore();  // To ignore the comma after the stock value
 
-        if (findtitle == title) 
+        if (findtitle == dvd.title) 
         {
             foundtitle = true;
-            cout << "Name: " << title << '\n';
-            cout << "Genre: " << genre << '\n';
-            cout << "Released Year: " << year << '\n';
-            cout << "No of Stocks: " << nostock << '\n';
+            cout << "Name: " << dvd.title << '\n';
+            cout << "Genre: " << dvd.genre << '\n';
+            cout << "Released Year: " << dvd.year << '\n';
+            cout << "No of Stocks: " << dvd.nostock << '\n';
             cout << "-------------------" << '\n';
         }
-    
-        if (!foundtitle) 
+    }
+
+    if (!foundtitle) 
+    {
+        cout << "No movies found for the title: " << findtitle << '\n';
+        cout << "You can try by finding a specific genre. \n\n";
+
+        // Ask for genre if title not found
+        cout << "What is the genre of the movie: ";
+        cin >> findgenre;
+
+        ip.clear(); // Clear the error flag
+        ip.seekg(0); // Go back to the beginning of the file
+
+        bool foundgenre = false;
+
+        // Searching by genre
+        while (getline(ip, dvd.title, ',')) 
         {
-            cout << "No movies found for the title: " << findtitle << '\n';
-            cout << "You can try by find specidic genre. \n\n";
+            getline(ip, dvd.genre, ',');
+            getline(ip, dvd.year, ',');
+            ip >> dvd.nostock;
+            ip.ignore();  // To ignore the comma after the stock value
 
-            cout << "What is the genre of the movie (Action, Romance, Horror, Adventure, Fantasy): ";
-            cin >> findgenre;
+            if (findgenre == dvd.genre) 
+            {
+                foundgenre = true;
+                cout << "Name: " << dvd.title << '\n';
+                cout << "Genre: " << dvd.genre << '\n';
+                cout << "Released Year: " << dvd.year << '\n';
+                cout << "No of Stocks: " << dvd.nostock << '\n';
+                cout << "-------------------" << '\n';
+            }
+        }
 
-            bool foundgenre = false;
-
-                while (getline(ip, title, ',')) 
-                {
-                    getline(ip, genre, ',');
-                    getline(ip, year, ',');
-                    getline(ip, nostock, '\n');
-
-                    if (findgenre == genre) 
-                    {
-                        foundgenre = true;
-                        cout << "Name: " << title << '\n';
-                        cout << "Genre: " << genre << '\n';
-                        cout << "Released Year: " << year << '\n';
-                        cout << "No of Stocks: " << nostock << '\n';
-                        cout << "-------------------" << '\n';
-                    }
-                }
-
-                if (!foundgenre) 
-                {
-                    cout << "No movies found for the genre: " << findgenre << '\n';
-                }
+        if (!foundgenre) 
+        {
+            cout << "No movies found for the genre: " << findgenre << '\n';
         }
     }
-    
+
     ip.close();
 }
