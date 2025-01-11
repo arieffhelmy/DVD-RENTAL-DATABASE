@@ -26,8 +26,7 @@ void CheckAvailability() {
         // Assuming the CSV has columns: Title, Genre, Year, Stock
         getline(ss, dvd.title, ',');
         getline(ss, dvd.genre, ',');
-        ss >> dvd.year;
-        ss.ignore(1, ','); // Skip the comma after the year
+        getline(ss, dvd.year, ',');
         ss >> dvd.nostock;
 
         dvdCollection.push_back(dvd);
@@ -57,7 +56,7 @@ void CheckAvailability() {
         cout << "You can try by finding a specific genre. \n\n";
 
         // Ask for genre if title not found
-        cout << "What is the genre of the movie: ";
+        cout << "What is the genre of the movie (Action, Fantasy, Romance, Horror, Comedy): ";
         cin >> findgenre;
 
         bool foundgenre = false;

@@ -32,10 +32,10 @@ int main() {
             returnDVD();
             break;
         case 7:
-            //importCustomersFromCSV();
+            //displayCustomerData();
             break;
         case 8:
-            //importRentalsFromCSV();
+            //displayRentalHistory(); 
             break;
         case 9:
             //cout << "Exiting. Thank you for using our system.\n";

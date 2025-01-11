@@ -62,7 +62,6 @@ public:
 
 extern vector<DVD> dvdCollection;
 extern vector<Customer> customers;
-extern vector<Rental> rentals;
 
 void displayMenu();
 void CheckAvailability();
@@ -71,9 +70,10 @@ void registerCustomer();
 void searchCustomer();
 void rentDVD();
 void returnDVD();
-bool CustomerID();
-void displayCustomerData();
-void displayRentalHistory();
+bool CustomerID(string);
+//void displayCustomerData();
+//void displayRentalHistory();
+
 
 
 
