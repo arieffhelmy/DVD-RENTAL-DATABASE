@@ -13,4 +13,5 @@ int displayMenu(int choice)
     cout << "8. Rental History\n";
     cout << "9. Exit\n";
 
+    return 0;
 }

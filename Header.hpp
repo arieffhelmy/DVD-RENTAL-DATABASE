@@ -57,6 +57,7 @@ public:
 };
 
 int displayMenu(int);
+void CheckAvailability();
 
 
 #endif

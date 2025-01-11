@@ -8,7 +8,8 @@ using namespace std;
 
 unordered_map<string, Customer> customerDatabase;
 
-string generateCustomerID() {
+string generateCustomerID() 
+{
     static int idCounter = 1;
     stringstream ss;
     ss << "CUST" << idCounter++;
