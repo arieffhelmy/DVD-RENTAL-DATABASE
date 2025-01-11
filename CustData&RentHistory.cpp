@@ -1,73 +1,91 @@
 #include "Header.hpp"
 
-unordered_map<string, Customer> loadCustomerData(const string& filePath) {
-    ifstream file(filePath);
-    unordered_map<string, Customer> customerDatabase;
 
-    if (!file.is_open()) {
-        cout << "Error: Could not open file " << filePath << endl;
-        return customerDatabase;
+void displayCustomerData() {
+    vector<Customer> customers;
+
+    ifstream ip("customers.csv");
+
+    if (!ip.is_open()) {
+        cout << "ERROR: Unable to open the file." << '\n';
+        return;
     }
 
     string line;
-    while (getline(file, line)) {
+    // Skip the header row (if present)
+    getline(ip, line);
+
+    // Read customer data from the file
+    while (getline(ip, line)) {
         stringstream ss(line);
-        string name, customerID, phone, email;
+        Customer customer;
 
-        // Read customer data from the line
-        getline(ss, name, ',');
-        getline(ss, customerID, ',');
-        getline(ss, phone, ',');
-        getline(ss, email);
+        getline(ss, customer.name, ',');
+        getline(ss, customer.phone, ',');
+        getline(ss, customer.email, ',');
+        getline(ss, customer.customerID, ',');
 
-        Customer customer(name, customerID, phone, email);
-        customerDatabase[customerID] = customer;
+        customers.push_back(customer);
     }
 
-    file.close();
-    return customerDatabase;
-}
+    ip.close();
 
-void displayCustomerData(const unordered_map<string, Customer>& customerDatabase) {
-    cout << "\nCustomer Data Imported:" << endl;
-    for (const auto& customerPair : customerDatabase) {
-        const Customer& customer = customerPair.second;
-        cout << "Name: " << customer.getName()
-             << ", CustomerID: " << customer.getID()
-             << ", Phone: " << customer.phone
-             << ", Email: " << customer.email << endl;
+    // Display all customer data
+    cout << "Customer Data:\n";
+    for (const auto& customer : customers) {
+        cout << "\nName: " << customer.name << '\n';
+        cout << "Phone: " << customer.phone << '\n';
+        cout << "Email: " << customer.email << '\n';
+        cout << "Customer ID: " << customer.customerID << '\n';
+        cout << "-------------------" << '\n';
     }
 }
 
-vector<Rental> loadRentalHistory(const string& filePath) {
-    ifstream file(filePath);
+
+
+void displayRentalHistory() {
     vector<Rental> rentalHistory;
+    vector<DVD> dvdCollection;
+    vector<Customer> customers;
 
-    if (!file.is_open()) {
-        cout << "Error: Could not open file " << filePath << endl;
-        return rentalHistory;
+    ifstream ip("RentHistory.csv");
+
+    if (!ip.is_open()) {
+        cout << "ERROR: Unable to open the file." << '\n';
+        return;
     }
 
     string line;
-    while (getline(file, line)) {
+    // Skip the header row (if present)
+    getline(ip, line);
+
+    // Read customer data from the file
+    while (getline(ip, line)) {
         stringstream ss(line);
-        string customerID, movieTitle;
+        Customer customer;
+        Rental rental;
+        DVD dvd;
 
-        getline(ss, customerID, ',');
-        getline(ss, movieTitle);
+        getline(ss, rental.dates, ','); // Date field
+        getline(ss, customer.name, ','); // Customer name
+        getline(ss, customer.customerID, ','); // Customer ID
+        getline(ss, dvd.title, ','); // Movie title
 
-        Rental rental(stoi(customerID), movieTitle);
+        // Add to respective vectors
         rentalHistory.push_back(rental);
+        customers.push_back(customer);
+        dvdCollection.push_back(dvd);
     }
 
-    file.close();
-    return rentalHistory;
-}
+    ip.close();
 
-void displayRentalHistory(const vector<Rental>& rentalHistory) {
-    cout << "\nRental History Imported:" << endl;
-    for (const Rental& rental : rentalHistory) {
-        cout << "CustomerID: " << rental.customerID
-             << ", Movie Title: " << rental.DVDTitle << endl;
+    // Display all customer data
+    cout << "Rental history:\n";
+    for (size_t i = 0; i < customers.size(); ++i) {
+        cout << "\nDate: " << rentalHistory[i].dates << '\n';
+        cout << "Name: " << customers[i].name << '\n';
+        cout << "Customer ID: " << customers[i].customerID << '\n';
+        cout << "Movie Title: " << dvdCollection[i].title << '\n';
+        cout << "-------------------" << '\n';
     }
 }

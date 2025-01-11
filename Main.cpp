@@ -32,10 +32,10 @@ int main() {
             returnDVD();
             break;
         case 7:
-            //displayCustomerData();
+            displayCustomerData();
             break;
         case 8:
-            //displayRentalHistory(); 
+            displayRentalHistory(); 
             break;
         case 9:
             //cout << "Exiting. Thank you for using our system.\n";

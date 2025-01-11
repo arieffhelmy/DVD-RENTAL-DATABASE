@@ -22,7 +22,7 @@ public:
     int nostock;
 
     // Constructor
-    //DVD(string t, string g, int y) : title(t), genre(g), year(y), isAvailable(true) {}
+    DVD() = default; // Let the compiler generate it
 };
 
 class Customer {
@@ -32,21 +32,8 @@ public:
     string phone;
     string email;
 
-    // Constructor with correct initialization order
-    Customer(string n, string id, string ph, string em)
-        : name(n), customerID(id), phone(ph), email(em) {}
-
-    // Default Constructor
-    Customer() : name(""), customerID(""), phone(""), email("") {}
-
-    // Member functions
-    string getName() const {
-        return name;
-    }
-
-    string getID() const {
-        return customerID;
-    }
+    // Constructor
+    Customer() = default; // Let the compiler generate it
 };
 
 
@@ -56,12 +43,18 @@ public:
     int customerID;
     string DVDTitle;
 
+    time_t now = std::time(0);              
+    tm *ltm = std::localtime(&now);         
+    
+    string dates= to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" +to_string(1900 + ltm->tm_year);
+
     // Constructor
-    Rental(int id, string title) : customerID(id), DVDTitle(title) {}
+    Rental() = default; // Let the compiler generate it
 };
 
 extern vector<DVD> dvdCollection;
 extern vector<Customer> customers;
+extern vector<Rental> rentalHistory;
 
 void displayMenu();
 void CheckAvailability();
@@ -71,10 +64,7 @@ void searchCustomer();
 void rentDVD();
 void returnDVD();
 bool CustomerID(string);
-//void displayCustomerData();
-//void displayRentalHistory();
-
-
-
+void displayCustomerData();
+void displayRentalHistory();
 
 #endif

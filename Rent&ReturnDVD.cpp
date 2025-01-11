@@ -7,18 +7,20 @@
 // Rent DVD function with vector usage
 void rentDVD() 
 {
-    // Ask for the customer ID first, only proceed if valid
+   // Ask for the customer ID first, only proceed if valid
     string customerID;
     if (!CustomerID(customerID)) 
     {
-        cout << "Cannot proceed with DVD rent due to invalid customer ID." << endl;
+        cout << "Cannot proceed with DVD return due to invalid customer ID." << endl;
         return;
     }
 
     vector<DVD> dvdCollection;  // Vector to store DVDs
-    vector<Customer> customerList;  // Vector to store customers
+    vector<Customer> customers;  // Vector to store customers
+    vector<Rental> rentalHistory;
     DVD dvd;
     Customer customer;
+    Rental rental;
     string findtitle;
     string line;
 
@@ -70,17 +72,17 @@ void rentDVD()
         getline(ss, customer.email, ',');
         getline(ss, customer.customerID, ',');
 
-        customerList.push_back(customer);
+        customers.push_back(customer);
     }
 
     customerFile.close();
 
     // Find the customer in the vector by matching customerID
-    for (auto& c : customerList) 
+    for (auto& details : customers) 
     {
-        if (customerID == c.customerID) 
+        if (customerID == details.customerID) 
         {
-            customer = c;  // Found the customer, store the details
+            customer = details;  // Found the customer, store the details
             break;
         }
     }
@@ -96,7 +98,7 @@ void rentDVD()
         if (findtitle == d.title) 
         {
             foundtitle = true;
-            d.nostock--;  // Decrease the stock for the movie
+            d.nostock--;  // Increase the stock for the movie
             break;
         }
     }
@@ -138,14 +140,11 @@ void rentDVD()
             cout << "ERROR: Unable to open RentHistory.csv." << '\n';
             return;
         }
-    
-        time_t now = time(0);
-        tm *ltm = localtime(&now);
 
         // Write only the updated movie to the RentHistory file
-        op << ltm->tm_mday << "/" << 1 + ltm->tm_mon << "/" << 1900 + ltm->tm_year << ','
+        op << rental.dates << ','
            << customer.name << "," << customer.customerID << ","
-           << findtitle << ",Rent" << endl;
+           << findtitle << ",Return" << endl;
 
         cout << "DVD added to RentHistory successfully!" << '\n';
 
@@ -166,9 +165,11 @@ void returnDVD()
     }
 
     vector<DVD> dvdCollection;  // Vector to store DVDs
-    vector<Customer> customerList;  // Vector to store customers
+    vector<Customer> customers;  // Vector to store customers
+    vector<Rental> rentalHistory;
     DVD dvd;
     Customer customer;
+    Rental rental;
     string findtitle;
     string line;
 
@@ -220,17 +221,17 @@ void returnDVD()
         getline(ss, customer.email, ',');
         getline(ss, customer.customerID, ',');
 
-        customerList.push_back(customer);
+        customers.push_back(customer);
     }
 
     customerFile.close();
 
     // Find the customer in the vector by matching customerID
-    for (auto& c : customerList) 
+    for (auto& details : customers) 
     {
-        if (customerID == c.customerID) 
+        if (customerID == details.customerID) 
         {
-            customer = c;  // Found the customer, store the details
+            customer = details;  // Found the customer, store the details
             break;
         }
     }
@@ -288,12 +289,9 @@ void returnDVD()
             cout << "ERROR: Unable to open RentHistory.csv." << '\n';
             return;
         }
-    
-        time_t now = time(0);
-        tm *ltm = localtime(&now);
 
         // Write only the updated movie to the RentHistory file
-        op << ltm->tm_mday << "/" << 1 + ltm->tm_mon << "/" << 1900 + ltm->tm_year << ','
+        op << rental.dates << ','
            << customer.name << "," << customer.customerID << ","
            << findtitle << ",Return" << endl;
 

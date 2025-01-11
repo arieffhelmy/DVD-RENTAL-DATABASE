@@ -4,9 +4,10 @@
 //MATRIX NUMBER: 23303466
 //FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
 
-vector<DVD> dvdCollection;
+
 
 void CheckAvailability() {
+    vector<DVD> dvdCollection;
     ifstream ip("DVD_Rental_Database.csv");
 
     if (!ip.is_open()) {
