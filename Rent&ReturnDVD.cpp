@@ -1,13 +1,19 @@
 #include "Header.hpp"
 
+//NAME: MUHAMMAD ARIEFF BIN HELMY SHAM
+//MATRIX NUMBER: 23303466
+//FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
+
 void returnDVD() 
 {
-    // Name:
-    // Matrix Number: 
-    // Function: 
+    // Ask for the customer ID first, only proceed if valid
+    if (!CustomerID()) 
+    {
+        cout << "Cannot proceed with DVD return due to invalid customer ID." << endl;
+        return;
+    }
 
     DVD dvd;
-
     string findtitle;
     string line;
     stringstream updatedContent;
@@ -25,7 +31,7 @@ void returnDVD()
 
     // Prompt user to enter the movie title
     cout << "What is the name of the movie: ";
-    getline(cin, findtitle);
+    getline(cin, findtitle);  // Read movie title from the user
 
     // Read the entire file content and process it line by line
     while (getline(file, line)) 
@@ -70,10 +76,63 @@ void returnDVD()
         return;
     }
 
-
     file << updatedContent.str();
-
     file.close();
 
     return;
 }
+
+
+// CustomerID function to verify customer
+bool CustomerID()
+{
+    Customer customer;
+    string findcustomerID, line;
+
+    // Open the file for both reading and writing
+    fstream file("customers.csv", ios::in | ios::out);
+
+    if (!file.is_open()) 
+    {
+        cout << "ERROR: Unable to open the file." << '\n';
+        return false; 
+    }
+
+    bool foundcustomerID = false;
+
+    cout << "Enter customer ID: ";
+    cin >> findcustomerID;
+
+    // Read each line from the file
+    while (getline(file, line)) 
+    {
+        stringstream ss(line);  // Use stringstream to split the line by commas
+        
+        // Parse the fields using getline with the delimiter ','
+        getline(ss, customer.name, ',');
+        getline(ss, customer.phone, ',');
+        getline(ss, customer.email, ',');
+        getline(ss, customer.customerID, ',');
+
+        // Check if the customerID matches
+        if (findcustomerID == customer.customerID) 
+        {
+            foundcustomerID = true;
+            // Display the customer details
+            cout << "Name: " << customer.name << '\n';
+            cout << "Phone: " << customer.phone << '\n';
+            cout << "Email: " << customer.email << '\n';
+            break;
+        }
+    }
+
+    // If the customer was not found
+    if (!foundcustomerID) 
+    {
+        cout << "Invalid customer ID" << endl;
+    }
+
+    file.close();
+    return foundcustomerID;
+}
+
