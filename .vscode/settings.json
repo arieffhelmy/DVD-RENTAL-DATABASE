@@ -1,9 +1,5 @@
 {
     "files.associations": {
-        "fstream": "cpp",
-        "iosfwd": "cpp",
-        "text_encoding": "cpp",
-        "typeinfo": "cpp",
         "iostream": "cpp"
     }
 }

@@ -24,13 +24,8 @@ void CheckAvailability()
     bool foundtitle = false;
 
     // Searching by title
-    while(getline(ip, dvd.title, ',')) 
+    for (const auto& dvd : dvdCollection) 
     {
-        getline(ip, dvd.genre, ',');
-        getline(ip, dvd.year, ',');
-        ip >> dvd.nostock;
-        ip.ignore();  // To ignore the comma after the stock value
-
         if (findtitle == dvd.title) 
         {
             foundtitle = true;
@@ -57,13 +52,8 @@ void CheckAvailability()
         bool foundgenre = false;
 
         // Searching by genre
-        while (getline(ip, dvd.title, ',')) 
+        for (const auto& dvd : dvdCollection)  
         {
-            getline(ip, dvd.genre, ',');
-            getline(ip, dvd.year, ',');
-            ip >> dvd.nostock;
-            ip.ignore();  // To ignore the comma after the stock value
-
             if (findgenre == dvd.genre) 
             {
                 foundgenre = true;

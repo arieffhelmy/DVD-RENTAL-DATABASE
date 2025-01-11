@@ -7,7 +7,7 @@ int main() {
     int choice;
 
     do {
-        void displayMenu();
+        displayMenu();
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore();
