@@ -4,16 +4,33 @@
 //MATRIX NUMBER: 23303466
 //FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
 
-void CheckAvailability() 
-{
-    DVD dvd;
+vector<DVD> dvdCollection;
 
+void CheckAvailability() {
     ifstream ip("DVD_Rental_Database.csv");
 
-    if (!ip.is_open()) 
-    {
+    if (!ip.is_open()) {
         cout << "ERROR: Unable to open the file." << '\n';
-        return; 
+        return;
+    }
+
+    string line;
+    // Skip the header row (if present)
+    getline(ip, line);
+
+    // Populate dvdCollection by reading the file
+    while (getline(ip, line)) {
+        stringstream ss(line);
+        DVD dvd;
+
+        // Assuming the CSV has columns: Title, Genre, Year, Stock
+        getline(ss, dvd.title, ',');
+        getline(ss, dvd.genre, ',');
+        ss >> dvd.year;
+        ss.ignore(1, ','); // Skip the comma after the year
+        ss >> dvd.nostock;
+
+        dvdCollection.push_back(dvd);
     }
 
     string findgenre, findtitle;
@@ -24,10 +41,8 @@ void CheckAvailability()
     bool foundtitle = false;
 
     // Searching by title
-    for (const auto& dvd : dvdCollection) 
-    {
-        if (findtitle == dvd.title) 
-        {
+    for (const auto& dvd : dvdCollection) {
+        if (findtitle == dvd.title) {
             foundtitle = true;
             cout << "Name: " << dvd.title << '\n';
             cout << "Genre: " << dvd.genre << '\n';
@@ -37,8 +52,7 @@ void CheckAvailability()
         }
     }
 
-    if (!foundtitle) 
-    {
+    if (!foundtitle) {
         cout << "No movies found for the title: " << findtitle << '\n';
         cout << "You can try by finding a specific genre. \n\n";
 
@@ -46,16 +60,11 @@ void CheckAvailability()
         cout << "What is the genre of the movie: ";
         cin >> findgenre;
 
-        ip.clear(); // Clear the error flag
-        ip.seekg(0); // Go back to the beginning of the file
-
         bool foundgenre = false;
 
         // Searching by genre
-        for (const auto& dvd : dvdCollection)  
-        {
-            if (findgenre == dvd.genre) 
-            {
+        for (const auto& dvd : dvdCollection) {
+            if (findgenre == dvd.genre) {
                 foundgenre = true;
                 cout << "Name: " << dvd.title << '\n';
                 cout << "Genre: " << dvd.genre << '\n';
@@ -65,8 +74,7 @@ void CheckAvailability()
             }
         }
 
-        if (!foundgenre) 
-        {
+        if (!foundgenre) {
             cout << "No movies found for the genre: " << findgenre << '\n';
         }
     }

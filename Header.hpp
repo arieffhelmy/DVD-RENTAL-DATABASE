@@ -60,9 +60,9 @@ public:
     Rental(int id, string title) : customerID(id), DVDTitle(title) {}
 };
 
-vector<DVD> dvdCollection;
-vector<Customer> customers;
-vector<Rental> rentals;
+extern vector<DVD> dvdCollection;
+extern vector<Customer> customers;
+extern vector<Rental> rentals;
 
 void displayMenu();
 void CheckAvailability();
@@ -72,6 +72,8 @@ void searchCustomer();
 void rentDVD();
 void returnDVD();
 bool CustomerID();
+void displayCustomerData();
+void displayRentalHistory();
 
 
 
