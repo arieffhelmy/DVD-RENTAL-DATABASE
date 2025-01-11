@@ -62,8 +62,6 @@ public:
 
 void displayMenu();
 void CheckAvailability();
-void registerCustomer();
-void searchCustomer();
 void AddDVD();
 void registerCustomer();
 void searchCustomer();
