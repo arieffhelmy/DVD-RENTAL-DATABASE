@@ -58,6 +58,8 @@ public:
 
 int displayMenu(int);
 void CheckAvailability();
+void AddDVD();
+void returnDVD();  
 
 
 #endif

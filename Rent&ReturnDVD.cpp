@@ -79,6 +79,26 @@ void returnDVD()
     file << updatedContent.str();
     file.close();
 
+    if (foundtitle) 
+    {
+        ofstream op("RentHistory.csv", ios::app);  // Open in append mode to add new records
+
+        if (!op.is_open()) 
+        {
+            cout << "ERROR: Unable to open RentHistory.csv." << '\n';
+            return;
+        }
+
+        // Write only the updated movie to the RentHistory file
+        op << dvd.title << ","
+           << dvd.genre << ","
+           << dvd.year << ","
+           << dvd.nostock << endl;
+
+        cout << "DVD added to RentHistory successfully!" << '\n';
+
+        op.close();
+    }
     return;
 }
 
