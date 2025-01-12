@@ -1,8 +1,8 @@
 #include "Header.hpp"
 
-//NAME
-//MATRIX NUMBER
-//FUNCTION
+//NAME : NURUL AMIRAH BINTI MOHAMAD YUSOFF
+//MATRIX NUMBER : 23301116
+//FUNCTION : TO RENT AND RETURN DVD
 
 // Rent DVD function with vector usage
 void rentDVD() 
