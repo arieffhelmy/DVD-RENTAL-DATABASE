@@ -79,7 +79,7 @@ void searchCustomer()
 
     string findname, findphone;
 
-    cout << "What is your name? > ";
+    cout << "What is customer name? > ";
     getline(cin, findname);
     toUpperCase(findname);
 
@@ -90,7 +90,7 @@ void searchCustomer()
         if (findname == customer.name) 
         {
             foundname = true;
-            cout << "Name: " << customer.name << endl;
+            cout << "\nName: " << customer.name << endl;
             cout << "Phone Number: " << customer.phone << endl;
             cout << "Email: " << customer.email << endl;
             cout << "Customer ID: " << customer.customerID << endl;
