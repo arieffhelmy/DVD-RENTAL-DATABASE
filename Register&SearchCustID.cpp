@@ -39,23 +39,29 @@ string generateCustomerID() {
 
 void registerCustomer()
 {
-    ifstream ip("customers.csv");  // Open the file to read existing customers
+    // Clear the existing customers vector
+    customers.clear();
+
+    // Read existing customers from the file
+    ifstream ip("customers.csv");
     if (!ip.is_open()) 
     {
-        cout << "ERROR: Unable to open the file." << endl;
+        cout << "ERROR: Unable to open the file for reading." << endl;
         return;
     }
 
-    // Read existing customers from the file into the vector
     Customer customer;
-    while (getline(ip, customer.name, ',') &&
-           getline(ip, customer.phone, ',') &&
-           getline(ip, customer.email, ',') &&
-           getline(ip, customer.customerID))
+    string line;
+    while (getline(ip, line))
     {
+        stringstream ss(line);
+        getline(ss, customer.name, ',');
+        getline(ss, customer.phone, ',');
+        getline(ss, customer.email, ',');
+        getline(ss, customer.customerID);
         customers.push_back(customer);
     }
-    ip.close();  // Close the file after reading existing customers
+    ip.close();
 
     // Collect new customer details
     cout << "Enter name (in uppercase): ";
@@ -70,7 +76,7 @@ void registerCustomer()
 
     customer.customerID = generateCustomerID();
 
-    // Check if the customer already exists (based on phone number or email)
+    // Check if the customer already exists
     for (const auto& existingCustomer : customers)
     {
         if (existingCustomer.phone == customer.phone || existingCustomer.email == customer.email)
@@ -80,26 +86,29 @@ void registerCustomer()
         }
     }
 
+    // Add the new customer to the vector
+    customers.push_back(customer);
+
     // Confirm registration
     cout << "Customer registered with ID: " << customer.customerID << endl;
 
-    // Write the new customer to the file
-    ofstream op("customers.csv", ios::app); // Open the file in append mode
+    // Write all customers to the file
+    ofstream op("customers.csv");
     if (!op.is_open()) 
     {
-        cout << "ERROR: Unable to open the file." << endl;
+        cout << "ERROR: Unable to open the file for writing." << endl;
         return;
     }
     
-    op << customer.name << "," 
-       << customer.phone << "," 
-       << customer.email << "," 
-       << customer.customerID << endl;
-    
-    op.close();  // Close the file
+    for (const auto& c : customers)
+    {
+        op << c.name << "," 
+           << c.phone << "," 
+           << c.email << "," 
+           << c.customerID << endl;
+    }    
+    op.close();
 }
-
-
 
 void searchCustomer() 
 {
@@ -181,3 +190,4 @@ void searchCustomer()
 
     ip.close();
 }
+

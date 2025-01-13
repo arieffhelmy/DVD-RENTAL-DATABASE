@@ -1,6 +1,6 @@
 Title,Genre,Year,0
-Inception,Action,2010,2
-Iron Man,Action,2008,5
+Inception,Action,2010,8
+Iron Man,Action,2008,2
 Avatar,Action,2009,2
 The Dark Knight,Action,2008,3
 The Avengers,Action,2012,1
@@ -18,7 +18,7 @@ Superbad,Comedy,2007,5
 Jumanji: Welcome to the Jungle,Comedy,2017,4
 Slumdog Millionaire,Romance,2009,4
 The King's Speech,Drama,2010,4
-Skyfall,Action,2012,3
+Skyfall,Action,2012,0
 1917,Action,2019,4
 Paddington,Comedy,2014,4
 Shaun of the Dead,Horror,2004,1
@@ -31,9 +31,9 @@ Ola Bola,Drama,2016,4
 Munafik,Horror,2016,5
 Upin & Ipin: Keris Siamang Tunggal,Fantasy,2019,3
 Ejen Ali: The Movie,Action,2019,1
-Tombiruo,Action,2017,5
+Tombiruo,Action,2017,4
 Abang Long Fadil 2,Comedy,2017,3
-Parasite,Drama,2019,1
+Parasite,Drama,2019,0
 Train to Busan,Horror,2016,1
 Your Name,Fantasy,2016,4
 The Wandering Earth,Action,2019,5
@@ -48,4 +48,4 @@ Saw,Horror,2004,3
 The Nun,Horror,2018,2
 Pitch Perfect,Comedy,2012,5
 The Notebook,Romance,2004,0
-Freelance,Comedy,2023,1
+Freelance,Comedy,2023,0

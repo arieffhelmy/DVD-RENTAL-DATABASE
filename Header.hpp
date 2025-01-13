@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <ctime>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace std;
 
@@ -41,7 +42,6 @@ public:
 // Rental Class
 class Rental {
 public:
-    int customerID;
     string DVDTitle;
 
     time_t now = std::time(0);              
