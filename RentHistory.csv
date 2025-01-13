@@ -1,4 +1,4 @@
-Date,Customer Name,Customer ID,Title,Description
-12/1/2025,MUHAMMAD,CUST1,Your Name,Rent
-12/1/2025,MUHAMMAD,CUST1,Your Name,Return
-12/1/2025,MUHAMMAD,CUST1,Your Name,Rent
+Customer Name,Customer ID,Title,Rent Date,Return Date,Description
+MUHAMMAD,CUST1,Your Name,Rent
+MUHAMMAD,CUST1,Your Name,Return
+MUHAMMAD,CUST1,Your Name,Rent

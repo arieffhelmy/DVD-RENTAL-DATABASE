@@ -146,9 +146,7 @@ void rentDVD()
         }
 
         // Write only the updated movie to the RentHistory file
-        op << rental.dates << ','
-           << customer.name << "," << customer.customerID << ","
-           << findtitle << ",Return" << endl;
+        op << customer.name << "," << customer.customerID << "," << findtitle << "," << rental.dates << "," << " " << endl;
 
         cout << "DVD added to RentHistory successfully!" << '\n';
 
@@ -295,9 +293,7 @@ void returnDVD()
         }
 
         // Write only the updated movie to the RentHistory file
-        op << rental.dates << ','
-           << customer.name << "," << customer.customerID << ","
-           << findtitle << ",Return" << endl;
+        op << customer.name << "," << customer.customerID << "," << findtitle << "," << " " << "," << rental.dates << endl;
 
         cout << "DVD added to RentHistory successfully!" << '\n';
 
