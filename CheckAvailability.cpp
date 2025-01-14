@@ -4,26 +4,28 @@
 //MATRIX NUMBER: 23303466
 //FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
 
-
-
 void CheckAvailability() {
     vector<DVD> dvdCollection;
-    ifstream ip("DVD_Rental_Database.csv");
 
-    if (!ip.is_open()) {
+    DVD dvd;
+
+    string findgenre, findtitle;
+    string top;
+
+    ifstream file("DVD_Rental_Database.csv");
+
+    if (file.fail()) {
         cout << "ERROR: Unable to open the file." << '\n';
         return;
     }
 
-    string line;
     // Skip the header row (if present)
-    getline(ip, line);
+    getline(file, top);
 
     // Populate dvdCollection by reading the file
-    while (getline(ip, line)) {
-        stringstream ss(line);
-        DVD dvd;
-
+    while (getline(file, top)) {
+        stringstream ss(top);
+        
         // Assuming the CSV has columns: Title, Genre, Year, Stock
         getline(ss, dvd.title, ',');
         getline(ss, dvd.genre, ',');
@@ -32,8 +34,6 @@ void CheckAvailability() {
 
         dvdCollection.push_back(dvd);
     }
-
-    string findgenre, findtitle;
 
     cout << "What is the name of the movie: ";
     getline(cin, findtitle);
@@ -79,5 +79,5 @@ void CheckAvailability() {
         }
     }
 
-    ip.close();
+    file.close();
 }

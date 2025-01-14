@@ -12,13 +12,15 @@ bool CustomerID(string& customerID, string& customerName);
 
 void rentDVD() {
     string customerID, customerName;
+    string findtitle;
+    string Return;
+
     vector<DVD> dvdCollection;
     vector<Customer> customers;
+    vector<Rental> rentalHistory;
+
     DVD dvd;
     Rental rental;
-    string findtitle;
-    string line;
-    int rentalPeriod; // Rental period (in days)
 
     // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
@@ -27,14 +29,17 @@ void rentDVD() {
     }
 
     // Read DVD data from file
-    fstream file("DVD_Rental_Database.csv", ios::in);
-    if (!file.is_open()) {
+    fstream file;
+
+    file.open("DVD_Rental_Database.csv", ios::in);
+
+    if (file.fail()) {
         cout << "ERROR: Unable to open DVD_Rental_Database.csv." << '\n';
         return;
     }
 
-    while (getline(file, line)) {
-        stringstream ss(line);
+    while (getline(file, Return)) {
+        stringstream ss(Return);
         getline(ss, dvd.title, ',');
         getline(ss, dvd.genre, ',');
         getline(ss, dvd.year, ',');
@@ -73,11 +78,12 @@ void rentDVD() {
 
     // Get rental period (number of days to rent the movie)
     cout << "How many days would you like to rent the movie? ";
-    cin >> rentalPeriod;
+    cin >> rental.rentalPeriod;
 
     // Update DVD_Rental_Database.csv
     file.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
-    if (!file.is_open()) {
+
+    if (file.fail()) {
         cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << '\n';
         return;
     }
@@ -88,33 +94,42 @@ void rentDVD() {
     file.close();
 
     // Record rental in RentHistory.csv (including rental period and rental date)
-    ofstream op("RentHistory.csv", ios::app);
+    ofstream output;
+    
+    output.open("RentHistory.csv", ios::app);
 
     // Debugging: Print details before writing
     cout << "\n\nCustomerID: " << customerID << '\n'
          << "CustomerName: " << customerName << '\n'
          << "Title: " << findtitle << '\n'
-         << "Rental Date: " << rental.dates << '\n'
-         << "Rental Period: " << rentalPeriod << " days" << endl;
+         << "Rental Date: " << rental.rentdate << '\n'
+         << "Rental Period: " << rental.rentalPeriod << " days" << endl;
 
-    if (op.is_open()) {
-        op << customerID << "," << customerName << "," << findtitle << "," << rental.dates << "," << "," << rentalPeriod << endl;  // Leave return date empty for now
-        
+    if (output.is_open()) {
+        output << customerID << "," << customerName << "," << findtitle << "," << rental.rentdate << "," << "," << rental.rentalPeriod << endl;  // Leave return date empty for now
+
         cout << "Data written to RentHistory.csv successfully." << endl;
     } else {
         cout << "Error opening RentHistory.csv." << endl;
     }
 
-    op.close();
+    output.close();
 }
 
 void returnDVD() {
-    string customerID, customerName, findtitle, rentalperiod;
+    string customerID, customerName, findtitle, rentalperiod, Return, custID;
+    string rentCustomerID, rentTitle, rentDate, returnDate, returnStatus, status;
+    string title, genre, year;
+    int nostock;
+    double difference;
+    int daysLate, rentalPeriod;
+
     vector<DVD> dvdCollection;
-    vector<string> rentHistoryLines;
-    Rental rental;
-    string line;
+    vector<string> rentHistoryReturn;
+    vector<Rental> rentalHistory;
+
     bool recordFound = false;
+    bool foundtitle = false;
 
     // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
@@ -122,30 +137,83 @@ void returnDVD() {
         return;
     }
 
+// Read what movie customer rent at the moment from file
+ifstream infile("RentHistory.csv");
+if (infile.fail()) {
+    cout << "ERROR: Unable to open RentHistory.csv." << '\n';
+    return;
+}
+
+while (getline(infile, Return)) {
+    stringstream ss(Return);
+
+    Customer customer;  
+    DVD dvd;            
+    Rental rental;      
+
+    // Extract customer details
+    getline(ss, customer.customerID, ',');
+    getline(ss, customer.name, ',');
+
+    // Extract rental details
+    getline(ss, dvd.title, ',');
+    getline(ss, rental.rentdate, ',');
+    getline(ss, rental.returndate, ',');
+    ss >> rental.rentalPeriod;
+
+    // Add to respective vectors
+    rentalHistory.push_back(rental);
+    customers.push_back(customer);
+    dvdCollection.push_back(dvd);
+}
+
+bool foundID = false;
+
+// Searching by ID
+for (size_t i = 0; i < customers.size(); ++i) {
+    if (customerID == customers[i].customerID) {
+        foundID = true;
+
+        cout << "\nCustomer ID: " << customers[i].customerID << '\n';
+        cout << "Customer Name: " << customers[i].name << '\n';
+        cout << "Movie title: " << dvdCollection[i].title << '\n';
+        cout << "Rent Date: " << rentalHistory[i].rentdate << '\n';
+        cout << "Rental Period: " << rentalHistory[i].rentalPeriod << '\n';
+        cout << "-------------------" << '\n';
+        }
+}
+
+if (!foundID) {
+    cout << "Data not found\n";
+}
+
+infile.close();
+
+
     // Read DVD data from file
-    fstream file("DVD_Rental_Database.csv", ios::in);
-    if (!file.is_open()) {
+    fstream read("DVD_Rental_Database.csv", ios::in);
+    if (read.fail()) {
         cout << "ERROR: Unable to open DVD_Rental_Database.csv." << '\n';
         return;
     }
+ 
+    while (getline(read, Return)) {
+        stringstream ss(Return);
 
-    DVD dvd;
-    while (getline(file, line)) {
-        stringstream ss(line);
-        getline(ss, dvd.title, ',');
-        getline(ss, dvd.genre, ',');
-        getline(ss, dvd.year, ',');
-        ss >> dvd.nostock;
+        DVD dvd;
+
+        getline(ss, title, ',');
+        getline(ss, genre, ',');
+        getline(ss, year, ',');
+        ss >> nostock;
         dvdCollection.push_back(dvd);
     }
-    file.close();
+    read.close();
 
     // Get movie title from user
     cout << "What is the name of the movie: ";
     cin.ignore(); // Ignore newline character
-    getline(cin, findtitle);
-
-    bool foundtitle = false;
+    getline(cin, findtitle);    
 
     // Find the movie to return
     for (auto& d : dvdCollection) {
@@ -164,8 +232,10 @@ void returnDVD() {
     }
 
     // Update DVD_Rental_Database.csv
+    fstream file;
+
     file.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
-    if (!file.is_open()) {
+    if (file.fail()) {
         cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << '\n';
         return;
     }
@@ -177,14 +247,13 @@ void returnDVD() {
 
     // Process RentHistory.csv to update the record
     fstream rentHistory("RentHistory.csv", ios::in);
-    if (!rentHistory.is_open()) {
+    if (rentHistory.fail()) {
         cout << "ERROR: Unable to open RentHistory.csv." << endl;
         return;
     }
 
-    while (getline(rentHistory, line)) {
-        stringstream ss(line);
-        string rentCustomerID, rentTitle, rentDate, returnDate, status;
+    while (getline(rentHistory, Return)) {
+        stringstream ss(Return);
 
         getline(ss, rentCustomerID, ',');
         getline(ss, customerName, ',');
@@ -209,11 +278,11 @@ void returnDVD() {
             time_t rentTimestamp = mktime(&tm_rentDate);
             time_t returnTimestamp = mktime(&tm_now);
 
-            double difference = difftime(returnTimestamp, rentTimestamp); // Calculate the time difference
-            int daysLate = static_cast<int>(difference / (60 * 60 * 24)); // Convert time difference to days, and cast to int
+            difference = difftime(returnTimestamp, rentTimestamp); // Calculate the time difference
+            daysLate = static_cast<int>(difference / (60 * 60 * 24)); // Convert time difference to days, and cast to int
             
             // Check if 'status' contains valid numeric data (rental period)
-            int rentalPeriod = 0;
+            rentalPeriod = 0;
             try {
                 rentalPeriod = stoi(status); // Try converting status to int
             } catch (const std::invalid_argument& e) {
@@ -225,25 +294,28 @@ void returnDVD() {
             }
 
             // Determine if the return is late or in time
-            string returnStatus = (daysLate > rentalPeriod) ? "Late" : "In Time";
+            returnStatus = (daysLate > rentalPeriod) ? "Late" : "In Time";
 
             // Update the row with return date and status
             rentalperiod = to_string(rentalPeriod);
-            line = rentCustomerID + "," + customerName + "," + rentTitle + "," + rentDate + "," + rental.dates + "," + rentalperiod + "," + returnStatus;
+
+            Rental rental;
+
+            Return = rentCustomerID + "," + customerName + "," + rentTitle + "," + rentDate + "," + rental.rentdate + "," + rentalperiod + "," + returnStatus;
         }
 
-        rentHistoryLines.push_back(line);
+        rentHistoryReturn.push_back(Return);
     }
     rentHistory.close();
 
     // Write updated data back to RentHistory.csv
     ofstream updatedRentHistory("RentHistory.csv", ios::out | ios::trunc);
-    if (!updatedRentHistory.is_open()) {
+    if (updatedRentHistory.fail()) {
         cout << "ERROR: Unable to open RentHistory.csv for writing." << endl;
         return;
     }
 
-    for (const auto& record : rentHistoryLines) {
+    for (const auto& record : rentHistoryReturn) {
         updatedRentHistory << record << '\n';
     }
 
@@ -261,12 +333,12 @@ void returnDVD() {
 bool CustomerID(string& customerID, string& customerName) {
     vector<Customer> customers;
     Customer customer;
-    string findcustomerID, line;
+    string findcustomerID, Return;
 
     // Open the file for both reading and writing
     fstream file("customers.csv", ios::in | ios::out);
 
-    if (!file.is_open()) {
+    if (file.fail()) {
         cout << "ERROR: Unable to open the file." << '\n';
         return false;
     }
@@ -276,9 +348,9 @@ bool CustomerID(string& customerID, string& customerName) {
     cout << "Enter customer ID: ";
     cin >> findcustomerID;
 
-    // Read each line from the file
-    while (getline(file, line)) {
-        stringstream ss(line); // Use stringstream to split the line by commas
+    // Read each Return from the file
+    while (getline(file, Return)) {
+        stringstream ss(Return); // Use stringstream to split the Return by commas
         
         // Parse the fields using getline with the delimiter ','
         getline(ss, customer.name, ',');
@@ -291,9 +363,6 @@ bool CustomerID(string& customerID, string& customerName) {
             foundcustomerID = true;
             customerID = findcustomerID; // Update customerID
             customerName = customer.name; // Update customerName
-            cout << "Name: " << customer.name << '\n';
-            cout << "Phone: " << customer.phone << '\n';
-            cout << "Email: " << customer.email << '\n';
             break;
         }
     }

@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <unordered_map>
 #include <ctime>
 #include <cstdlib>
 #include <iomanip>
@@ -43,11 +42,14 @@ public:
 class Rental {
 public:
     string DVDTitle;
-
+    string returnStatus;
+    int rentalPeriod;
+    
     time_t now = std::time(0);              
     tm *ltm = std::localtime(&now);         
     
-    string dates= to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" +to_string(1900 + ltm->tm_year);
+    string rentdate= to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" +to_string(1900 + ltm->tm_year);
+    string returndate= to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" +to_string(1900 + ltm->tm_year);
 
     // Constructor
     Rental() = default; // Let the compiler generate it
@@ -56,6 +58,7 @@ public:
 extern vector<DVD> dvdCollection;
 extern vector<Customer> customers;
 extern vector<Rental> rentalHistory;
+extern vector<string> rentHistoryReturn;
 
 void displayMenu();
 void CheckAvailability();

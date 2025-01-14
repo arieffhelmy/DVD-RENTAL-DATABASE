@@ -4,21 +4,24 @@
 void displayCustomerData() {
     vector<Customer> customers;
 
-    ifstream ip("customers.csv");
+    Customer customer;
 
-    if (!ip.is_open()) {
+    string header;
+
+    ifstream input("customers.csv");
+
+    if (!input.is_open()) {
         cout << "ERROR: Unable to open the file." << '\n';
         return;
     }
 
-    string line;
+
     // Skip the header row (if present)
-    getline(ip, line);
+    getline(input, header);
 
     // Read customer data from the file
-    while (getline(ip, line)) {
-        stringstream ss(line);
-        Customer customer;
+    while (getline(input, header)) {
+        stringstream ss(header);
 
         getline(ss, customer.name, ',');
         getline(ss, customer.phone, ',');
@@ -28,7 +31,7 @@ void displayCustomerData() {
         customers.push_back(customer);
     }
 
-    ip.close();
+    input.close();
 
     // Display all customer data
     cout << "Customer Data:\n";
@@ -48,28 +51,31 @@ void displayRentalHistory() {
     vector<DVD> dvdCollection;
     vector<Customer> customers;
 
-    ifstream ip("RentHistory.csv");
+    Customer customer;
+    Rental rental;
+    DVD dvd;
 
-    if (!ip.is_open()) {
+    string header;
+
+    ifstream input("RentHistory.csv");
+
+    if (!input.is_open()) {
         cout << "ERROR: Unable to open the file." << '\n';
         return;
     }
 
-    string line;
+    
     // Skip the header row (if present)
-    getline(ip, line);
+    getline(input, header);
 
     // Read customer data from the file
-    while (getline(ip, line)) {
-        stringstream ss(line);
-        Customer customer;
-        Rental rental;
-        DVD dvd;
+    while (getline(input, header)) {
+        stringstream ss(header);
 
-        getline(ss, rental.dates, ','); // Date field
+        getline(ss, customer.customerID, ','); // Date field
         getline(ss, customer.name, ','); // Customer name
-        getline(ss, customer.customerID, ','); // Customer ID
-        getline(ss, dvd.title, ','); // Movie title
+        getline(ss, dvd.title, ','); // Customer ID
+        getline(ss, rental.returnStatus, ','); // Movie title
 
         // Add to respective vectors
         rentalHistory.push_back(rental);
@@ -77,15 +83,15 @@ void displayRentalHistory() {
         dvdCollection.push_back(dvd);
     }
 
-    ip.close();
+    input.close();
 
     // Display all customer data
     cout << "Rental history:\n";
     for (size_t i = 0; i < customers.size(); ++i) {
-        cout << "\nDate: " << rentalHistory[i].dates << '\n';
-        cout << "Name: " << customers[i].name << '\n';
+        cout << "\nName: " << customers[i].name << '\n';
         cout << "Customer ID: " << customers[i].customerID << '\n';
         cout << "Movie Title: " << dvdCollection[i].title << '\n';
+        cout << "Date: " << rentalHistory[i].returnStatus << '\n';
         cout << "-------------------" << '\n';
     }
 }

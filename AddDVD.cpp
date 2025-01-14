@@ -7,9 +7,9 @@
 void AddDVD() 
 {
     DVD dvd;
-    ofstream op("DVD_Rental_Database.csv", ios::app);  // Open in append mode to add new records
+    ofstream output("DVD_Rental_Database.csv", ios::app);  // Open in append mode to add new records
 
-    if (!op.is_open()) 
+    if (output.fail()) 
     {
         cout << "ERROR: Unable to open the file." << '\n';
         return;
@@ -29,12 +29,12 @@ void AddDVD()
     cin >> dvd.nostock;
 
     // Write the new DVD information to the file
-    op << dvd.title << "," 
+    output << dvd.title << "," 
         << dvd.genre << "," 
         << dvd.year << "," 
         << dvd.nostock << endl;
 
-    cout << "DVD added successfully!" << '\n';
+    cout << "\nDVD added successfully!" << '\n';
 
-    op.close();
+    output.close();
 }
