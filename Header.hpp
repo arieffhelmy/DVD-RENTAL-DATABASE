@@ -69,5 +69,6 @@ void rentDVD();
 void returnDVD();
 void displayCustomerData();
 void displayRentalHistory();
+bool CustomerID(string& customerID, string& customerName);
 
 #endif
