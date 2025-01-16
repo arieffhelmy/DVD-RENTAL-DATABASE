@@ -44,7 +44,7 @@ void CheckAvailability() {
     for (const auto& dvd : dvdCollection) {
         if (findtitle == dvd.title) {
             foundtitle = true;
-            cout << "Name: " << dvd.title << '\n';
+            cout << "\nName: " << dvd.title << '\n';
             cout << "Genre: " << dvd.genre << '\n';
             cout << "Released Year: " << dvd.year << '\n';
             cout << "No of Stocks: " << dvd.nostock << '\n';
@@ -66,7 +66,7 @@ void CheckAvailability() {
         for (const auto& dvd : dvdCollection) {
             if (findgenre == dvd.genre) {
                 foundgenre = true;
-                cout << "Name: " << dvd.title << '\n';
+                cout << "\nName: " << dvd.title << '\n';
                 cout << "Genre: " << dvd.genre << '\n';
                 cout << "Released Year: " << dvd.year << '\n';
                 cout << "No of Stocks: " << dvd.nostock << '\n';
