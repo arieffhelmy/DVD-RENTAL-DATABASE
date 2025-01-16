@@ -7,7 +7,7 @@
 void rentDVD() {
     string customerID, customerName;
     string findtitle;
-    string Return;
+    string rent;
 
     vector<DVD> dvdCollection;
     vector<Customer> customers;
@@ -24,6 +24,7 @@ void rentDVD() {
 
     // Read DVD data from file
     fstream file;
+    string header; // Variable to store the header
 
     file.open("DVD_Rental_Database.csv", ios::in);
 
@@ -32,8 +33,11 @@ void rentDVD() {
         return;
     }
 
-    while (getline(file, Return)) {
-        stringstream ss(Return);
+    // Read and store the header row
+    getline(file, header);
+
+    while (getline(file, rent)) {
+        stringstream ss(rent);
         getline(ss, dvd.title, ',');
         getline(ss, dvd.genre, ',');
         getline(ss, dvd.year, ',');
@@ -82,6 +86,10 @@ void rentDVD() {
         return;
     }
 
+    // Write the header row back to the file
+    file << header << '\n';
+
+    // Write the updated data
     for (const auto& d : dvdCollection) {
         file << d.title << ',' << d.genre << ',' << d.year << ',' << d.nostock << '\n';
     }
@@ -89,7 +97,7 @@ void rentDVD() {
 
     // Record rental in RentHistory.csv (including rental period and rental date)
     ofstream output;
-    
+
     output.open("RentHistory.csv", ios::app);
 
     // Debugging: Print details before writing

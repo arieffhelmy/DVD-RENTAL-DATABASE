@@ -4,20 +4,17 @@
 //MATRIX NUMBER : 23301116
 //FUNCTION : TO RETURN DVD
 
+string normalizeString(const string& input);
+
 void returnDVD() {
-    string customerID, customerName, findtitle, rentalperiod, Return, custID;
-    string rentCustomerID, rentTitle, rentDate, returnDate, returnStatus, status;
-    string title, genre, year;
-    int nostock;
+    string customerID, customerName, findtitle, rentalperiod, Return, custID, line;
+    string rentCustomerID, rentTitle, rentDate, returnDate, status;
+    int rentalPeriod, daysLate;
     double difference;
-    int daysLate, rentalPeriod;
 
-    vector<DVD> dvdCollection;
+    stringstream updatedContent;
     vector<string> rentHistoryReturn;
-    vector<Rental> rentalHistory;
-
-    bool recordFound = false;
-    bool foundtitle = false;
+    bool recordFound = false, foundtitle = false;
 
     // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
@@ -25,180 +22,91 @@ void returnDVD() {
         return;
     }
 
-// Read what movie customer rent at the moment from file
-ifstream infile("RentHistory.csv");
-if (infile.fail()) {
-    cout << "ERROR: Unable to open RentHistory.csv." << '\n';
-    return;
-}
+    cout << "\n-------------------" << "\nCustomer ID: " << customerID << "\nCustomer Name: " << customerName << "\n-------------------" << endl;
 
-while (getline(infile, Return)) {
-    stringstream ss(Return);
-
-    Customer customer;  
-    DVD dvd;            
-    Rental rental;      
-
-    // Extract customer details
-    getline(ss, customer.customerID, ',');
-    getline(ss, customer.name, ',');
-
-    // Extract rental details
-    getline(ss, dvd.title, ',');
-    getline(ss, rental.rentdate, ',');
-    getline(ss, rental.returndate, ',');
-    ss >> rental.rentalPeriod;
-
-    // Add to respective vectors
-    rentalHistory.push_back(rental);
-    customers.push_back(customer);
-    dvdCollection.push_back(dvd);
-}
-
-bool foundID = false;
-
-// Searching by ID
-for (size_t i = 0; i < customers.size(); ++i) {
-    if (customerID == customers[i].customerID) {
-        foundID = true;
-
-        cout << "\nCustomer ID: " << customers[i].customerID << '\n';
-        cout << "Customer Name: " << customers[i].name << '\n';
-        cout << "Movie title: " << dvdCollection[i].title << '\n';
-        cout << "Rent Date: " << rentalHistory[i].rentdate << '\n';
-        cout << "Rental Period: " << rentalHistory[i].rentalPeriod << '\n';
-        cout << "-------------------" << '\n';
-        }
-}
-
-if (!foundID) {
-    cout << "Data not found\n";
-}
-
-infile.close();
-
-
-    // Read DVD data from file
-    fstream read("DVD_Rental_Database.csv", ios::in);
-    if (read.fail()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv." << '\n';
-        return;
-    }
- 
-    while (getline(read, Return)) {
-        stringstream ss(Return);
-
-        DVD dvd;
-
-        getline(ss, title, ',');
-        getline(ss, genre, ',');
-        getline(ss, year, ',');
-        ss >> nostock;
-        dvdCollection.push_back(dvd);
-    }
-    read.close();
-
-    // Get movie title from user
-    cout << "What is the name of the movie: ";
-    cin.ignore(); // Ignore newline character
-    getline(cin, findtitle);    
-
-    // Find the movie to return
-    for (auto& d : dvdCollection) {
-        if (findtitle == d.title) {
-            foundtitle = true;
-            d.nostock++; // Increment stock
-            break;
-        }
-    }
-
-    if (!foundtitle) {
-        cout << "Movie not found: " << findtitle << '\n';
-        return;
-    } else {
-        cout << "The stock for '" << findtitle << "' has been updated." << '\n';
-    }
-
-    // Update DVD_Rental_Database.csv
-    fstream file;
-
-    file.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
-    if (file.fail()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << '\n';
-        return;
-    }
-
-    for (const auto& d : dvdCollection) {
-        file << d.title << ',' << d.genre << ',' << d.year << ',' << d.nostock << '\n';
-    }
-    file.close();
-
-    // Process RentHistory.csv to update the record
-    fstream rentHistory("RentHistory.csv", ios::in);
-    if (rentHistory.fail()) {
+    // Display current rentals for the customer (only those that haven't been returned yet)
+    ifstream infile("RentHistory.csv");
+    if (!infile.is_open()) {
         cout << "ERROR: Unable to open RentHistory.csv." << endl;
         return;
     }
 
-    while (getline(rentHistory, Return)) {
-        stringstream ss(Return);
+    cout << "\nCurrent Rentals:\n";
+    while (getline(infile, Return)) {
+    stringstream ss(Return);
+    getline(ss, rentCustomerID, ',');
+    getline(ss, customerName, ',');
+    getline(ss, rentTitle, ',');
+    getline(ss, rentDate, ',');
+    getline(ss, returnDate, ',');
+    getline(ss, status, ',');
 
+    // Only display rentals where the return date is empty (i.e., not returned)
+    if (rentCustomerID == customerID && returnDate.empty()) {
+        cout << "Movie title: " << rentTitle << "\nRent Date: " << rentDate
+             << "\nRental Period: " << status << "\n-------------------" << endl;
+    }
+    }
+    infile.close();
+
+
+    // Prompt user to enter the movie title
+    cout << "What is the name of the movie: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
+    getline(cin, findtitle);  // Read movie title
+    findtitle = normalizeString(findtitle);  // Normalize for consistent comparison
+    cout << "Movie title entered: '" << findtitle << "'" << endl;
+
+    // Open RentHistory.csv to find and update the return record
+    infile.open("RentHistory.csv");
+    if (!infile.is_open()) {
+        cout << "ERROR: Unable to open RentHistory.csv." << endl;
+        return;
+    }
+
+    while (getline(infile, Return)) {
+        stringstream ss(Return);
         getline(ss, rentCustomerID, ',');
         getline(ss, customerName, ',');
         getline(ss, rentTitle, ',');
         getline(ss, rentDate, ',');
         getline(ss, returnDate, ',');
-        getline(ss, status, ',');  // Get rental period (status)
+        getline(ss, status, ',');
 
-        if (rentCustomerID == customerID && rentTitle == findtitle && returnDate.empty()) {
+        if (rentCustomerID == customerID && normalizeString(rentTitle) == findtitle && returnDate.empty()) {
             recordFound = true;
 
-            // Manually parse rentDate into tm structure
+            // Parse the rent date
             struct tm tm_rentDate = {};
             stringstream rentDateStream(rentDate);
-            rentDateStream >> get_time(&tm_rentDate, "%Y-%m-%d");  // Parsing date format (YYYY-MM-DD)
+            rentDateStream >> get_time(&tm_rentDate, "%d/%m/%Y");
 
             // Get the current date
             time_t now = time(0);
             struct tm tm_now = *localtime(&now);
 
-            // Calculate the difference in days between current date and rentDate
+            // Calculate the difference in days
             time_t rentTimestamp = mktime(&tm_rentDate);
             time_t returnTimestamp = mktime(&tm_now);
+            difference = difftime(returnTimestamp, rentTimestamp);
+            daysLate = static_cast<int>(difference / (60 * 60 * 24));
 
-            difference = difftime(returnTimestamp, rentTimestamp); // Calculate the time difference
-            daysLate = static_cast<int>(difference / (60 * 60 * 24)); // Convert time difference to days, and cast to int
-            
-            // Check if 'status' contains valid numeric data (rental period)
-            rentalPeriod = 0;
-            try {
-                rentalPeriod = stoi(status); // Try converting status to int
-            } catch (const std::invalid_argument& e) {
-                cout << "Error: Invalid rental period (status) format: " << status << ". " << e.what() << endl;
-                continue; // Skip this record if stoi throws an exception
-            } catch (const std::out_of_range& e) {
-                cout << "Error: Rental period (status) is out of range: " << status << ". " << e.what() << endl;
-                continue; // Skip this record if stoi throws an out-of-range exception
-            }
+            // Determine return status
+            rentalPeriod = stoi(status);
+            string returnStatus = (daysLate > rentalPeriod) ? "Late" : "On Time";
 
-            // Determine if the return is late or in time
-            returnStatus = (daysLate > rentalPeriod) ? "Late" : "On Time";
-
-            // Update the row with return date and status
-            rentalperiod = to_string(rentalPeriod);
-
-            Rental rental;
-
-            Return = rentCustomerID + "," + customerName + "," + rentTitle + "," + rentDate + "," + rental.returndate + "," + rentalperiod + "," + returnStatus;
+            // Update the return record
+            returnDate = to_string(tm_now.tm_mday) + "/" + to_string(tm_now.tm_mon + 1) + "/" + to_string(tm_now.tm_year + 1900);
+            Return = rentCustomerID + "," + customerName + "," + rentTitle + "," + rentDate + "," + returnDate + "," + status + "," + returnStatus;
         }
 
         rentHistoryReturn.push_back(Return);
     }
-    rentHistory.close();
+    infile.close();
 
-    // Write updated data back to RentHistory.csv
+    // Write updated rent history to file
     ofstream updatedRentHistory("RentHistory.csv", ios::out | ios::trunc);
-    if (updatedRentHistory.fail()) {
+    if (!updatedRentHistory.is_open()) {
         cout << "ERROR: Unable to open RentHistory.csv for writing." << endl;
         return;
     }
@@ -206,12 +114,69 @@ infile.close();
     for (const auto& record : rentHistoryReturn) {
         updatedRentHistory << record << '\n';
     }
-
     updatedRentHistory.close();
 
-    if (recordFound) {
-        cout << "Return record updated successfully for '" << findtitle << "'." << endl;
-    } else {
+    if (!recordFound) {
         cout << "No matching rental record found for '" << findtitle << "' and customer ID: " << customerID << "." << endl;
+        return;
+    } else {
+        cout << "Return record updated successfully for '" << findtitle << "'." << endl;
     }
+
+    // Open DVD_Rental_Database.csv and preserve the header
+    ifstream dvdFile("DVD_Rental_Database.csv");
+    if (!dvdFile.is_open()) {
+        cout << "ERROR: Unable to open DVD_Rental_Database.csv." << endl;
+        return;
+    }
+
+    string header;
+    getline(dvdFile, header);  // Read and store the header separately
+
+    updatedContent << header << '\n';  // Add the header back to the updated content
+
+    while (getline(dvdFile, line)) {
+        stringstream ss(line);
+        string title, genre, year;
+        int stock;
+
+        getline(ss, title, ',');
+        getline(ss, genre, ',');
+        getline(ss, year, ',');
+        ss >> stock;
+
+        if (normalizeString(title) == findtitle) {
+            foundtitle = true;
+            stock++;  // Increment the stock
+        }
+
+        updatedContent << title << "," << genre << "," << year << "," << stock << '\n';
+    }
+    dvdFile.close();
+
+    if (!foundtitle) {
+        cout << "Movie not found: " << findtitle << '\n';
+        return;
+    }
+
+    // Write updated content back to DVD_Rental_Database.csv
+    ofstream updatedDVDFile("DVD_Rental_Database.csv", ios::out | ios::trunc);
+    if (!updatedDVDFile.is_open()) {
+        cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << endl;
+        return;
+    }
+
+    updatedDVDFile << updatedContent.str();  // Write the entire updated content, including the header
+    updatedDVDFile.close();
+
+    cout << "The stock for '" << findtitle << "' has been updated." << endl;
+}
+
+// Utility Function: Normalize String
+string normalizeString(const string& input) {
+    string result = input;
+    result.erase(result.find_last_not_of(" \n\r\t") + 1);  // Trim trailing spaces
+    result.erase(0, result.find_first_not_of(" \n\r\t"));  // Trim leading spaces
+    transform(result.begin(), result.end(), result.begin(), ::tolower);  // Convert to lowercase
+    return result;
 }
