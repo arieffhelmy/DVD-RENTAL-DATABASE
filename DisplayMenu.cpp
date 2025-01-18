@@ -2,9 +2,9 @@
 
 void displayMenu() 
 {
-    cout << "\n--- DVD Rental System ---\n";
+    cout << "\n--- DVD Rental System ---\n\n";
     cout << "1. Check Availability DVD\n";
-    cout << "2. Add DVDs\n";
+    cout << "2. Add DVD and Stock\n";
     cout << "3. Register New Customer\n";
     cout << "4. Search Customer ID\n";
     cout << "5. Rent DVD\n";

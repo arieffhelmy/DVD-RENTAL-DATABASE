@@ -75,7 +75,8 @@ void displayRentalHistory() {
         getline(ss, customer.customerID, ','); // Date field
         getline(ss, customer.name, ','); // Customer name
         getline(ss, dvd.title, ','); // Customer ID
-        getline(ss, rental.returnStatus, ','); // Movie title
+        getline(ss, rental.Rentdate, ','); // Movie title
+        getline(ss, rental.Returndate, ','); // Movie title
 
         // Add to respective vectors
         rentalHistory.push_back(rental);
@@ -86,12 +87,13 @@ void displayRentalHistory() {
     input.close();
 
     // Display all customer data
-    cout << "Rental history:\n";
+    cout << "\nRental history:\n";
     for (size_t i = 0; i < customers.size(); ++i) {
         cout << "\nName: " << customers[i].name << '\n';
         cout << "Customer ID: " << customers[i].customerID << '\n';
         cout << "Movie Title: " << dvdCollection[i].title << '\n';
-        cout << "Date: " << rentalHistory[i].returnStatus << '\n';
+        cout << "Rent Date: " << rentalHistory[i].Rentdate << '\n';
+        cout << "Return Date: " << rentalHistory[i].Returndate << '\n';
         cout << "-------------------" << '\n';
     }
 }

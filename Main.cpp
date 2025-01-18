@@ -8,7 +8,7 @@ int main() {
 
     do {
         displayMenu();
-        cout << "Enter your choice: ";
+        cout << "\nEnter your choice: ";
         cin >> choice;
         cin.ignore();
         
@@ -17,7 +17,7 @@ int main() {
             CheckAvailability();
             break;
         case 2:
-            AddDVD();
+            AddDVDandStock();
             break;
         case 3:
             registerCustomer();

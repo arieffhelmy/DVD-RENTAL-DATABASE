@@ -42,7 +42,7 @@ public:
 class Rental {
 public:
     string DVDTitle;
-    string returnStatus;
+    string returnStatus, Rentdate, Returndate;
     int rentalPeriod;
     
     time_t now = std::time(0);              
@@ -62,7 +62,7 @@ extern vector<string> rentHistoryReturn;
 
 void displayMenu();
 void CheckAvailability();
-void AddDVD();
+void AddDVDandStock();
 void registerCustomer();
 void searchCustomer();
 void rentDVD();
