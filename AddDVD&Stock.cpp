@@ -21,12 +21,15 @@ void AddDVDandStock()
         cin >> choice;
         cin.ignore();  // To ignore the newline left by cin
         
-        if (choice == 0) {
+        if (choice == 0) 
+        {
             break;  // Exit the loop and return to the main menu
         }
-        else if (choice == 1) {
-        DVD dvd;
-        ofstream output("DVD_Rental_Database.csv", ios::app);  // Open in append mode to add new records
+        else if (choice == 1) 
+        {
+            DVD dvd;
+            
+            ofstream output("DVD_Rental_Database.csv", ios::app);  // Open in append mode to add new records
 
             if (output.fail()) 
             {
@@ -57,32 +60,36 @@ void AddDVDandStock()
 
             output.close();
         }
-        else if (choice == 2) {
-        // Read all DVDs into memory
-        fstream inout;
-        string header;
-
-        inout.open("DVD_Rental_Database.csv", ios::in);
-        if (inout.is_open()) 
+        else if (choice == 2) 
         {
-        getline(inout, header);
+            // Read all DVDs into memory
+            fstream inout;
+            string header;
 
-        while (getline(inout, line)) {
-            stringstream ss(line);
-            getline(ss, dvd.title, ',');
-            getline(ss, dvd.genre, ',');
-            getline(ss, dvd.year, ',');
-            ss >> dvd.nostock;
-            dvdCollection.push_back(dvd);
-        }
-        inout.close();
+            inout.open("DVD_Rental_Database.csv", ios::in);
+            
+            if (inout.is_open()) 
+            {
+                getline(inout, header);
 
-
-        } else {
-            cout << "ERROR: Unable to open the file." << '\n';
-            continue;
-        }
-        // Add stock to an existing DVD
+                while (getline(inout, line)) 
+                {
+                    stringstream ss(line);
+                    getline(ss, dvd.title, ',');
+                    getline(ss, dvd.genre, ',');
+                    getline(ss, dvd.year, ',');
+                    ss >> dvd.nostock;
+                    dvdCollection.push_back(dvd);
+                }
+                inout.close();
+            } 
+            else 
+            {
+                cout << "ERROR: Unable to open the file." << '\n';
+                continue;
+            }
+                
+            // Add stock to an existing DVD
             cout << "Enter the name of the movie: ";
             getline(cin, dvd.title);
 
@@ -96,42 +103,49 @@ void AddDVDandStock()
             cin >> dvd.nostock;
             cin.ignore();  // To ignore the newline left by cin
 
-        bool founddvd = false;
+            bool founddvd = false;
 
-        // Search for the DVD by title
-            for (auto& existingDVD : dvdCollection) {
-                if (existingDVD.title == dvd.title && existingDVD.genre == dvd.genre && existingDVD.year == dvd.year) {
+            // Search for the DVD by title
+            for (auto& existingDVD : dvdCollection) 
+            {
+                if (existingDVD.title == dvd.title && existingDVD.genre == dvd.genre && existingDVD.year == dvd.year) 
+                {
                     founddvd = true;
                     existingDVD.nostock += dvd.nostock;
                     break;
                 }
+            }
+
+            if (!founddvd) 
+            {
+                cout << "DVD not found in the database!" << endl;
+                continue;
+            }
+
+            // Write the updated DVD list back to the file
+            inout.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
+
+            if (inout.fail()) 
+            {
+                cout << "ERROR: Unable to open the file." << '\n';
+                continue;
+            }
+            
+            inout << header << "\n";
+
+            for (const auto& existingDVD : dvdCollection) 
+            {
+                inout << existingDVD.title << ","
+                    << existingDVD.genre << ","
+                    << existingDVD.year << ","
+                    << existingDVD.nostock << endl;
+            }
+
+            cout << "\nStock added successfully!" << '\n';
+            inout.close();
         }
-
-        if (!founddvd) {
-            cout << "DVD not found in the database!" << endl;
-            continue;
-        }
-
-        // Write the updated DVD list back to the file
-        inout.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
-
-        if (inout.fail()) {
-            cout << "ERROR: Unable to open the file." << '\n';
-            continue;
-        }
-        inout << header << "\n";
-
-        for (const auto& existingDVD : dvdCollection) {
-            inout << existingDVD.title << ","
-                << existingDVD.genre << ","
-                << existingDVD.year << ","
-                << existingDVD.nostock << endl;
-        }
-
-        cout << "\nStock added successfully!" << '\n';
-        inout.close();
-    }
-        else {
+        else 
+        {
             cout << "Invalid choice. Please select 0, 1, or 2." << endl;
         }
     }
