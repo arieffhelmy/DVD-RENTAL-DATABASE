@@ -4,14 +4,8 @@
 //MATRIX NUMBER: 23301879
 //FUNCTION: TO REGISTER AND SERACH CUSTOMER ID
 
-void toUpperCase(string &s);
 string generateCustomerID();
 vector<Customer> customers;
-
-void toUpperCase(string &s) 
-{
-    transform(s.begin(), s.end(), s.begin(), ::toupper);
-}
 
 string generateCustomerID() {
     if (customers.empty()) {
@@ -66,7 +60,7 @@ void registerCustomer()
     // Collect new customer details
     cout << "Enter name (in uppercase): ";
     getline(cin, customer.name);
-    toUpperCase(customer.name);
+    normalizeString(customer.name);
 
     cout << "Enter phone number: ";
     getline(cin, customer.phone);
@@ -141,7 +135,7 @@ void searchCustomer()
 
     cout << "What is customer name? > ";
     getline(cin, findname);
-    toUpperCase(findname);
+    normalizeString(findname);
 
     bool foundname = false;
 

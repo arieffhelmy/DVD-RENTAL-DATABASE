@@ -10,6 +10,13 @@ int main() {
         cin >> choice;
         cin.ignore();
         
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid! Please enter number only.\n";
+        }
+        else {
         switch (choice) {
         case 1:
             CheckAvailability();
@@ -41,6 +48,7 @@ int main() {
         default:
             cout << "\nInvalid choice! Please try again.\n";
 
+        }
         }
     } while (choice != 9);
 

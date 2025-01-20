@@ -48,14 +48,15 @@ void rentDVD() {
 
     // Get movie title from user
     cout << "What is the name of the movie: ";
-    cin.ignore(); // Ignore newline character
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
     getline(cin, findtitle);
+    findtitle = normalizeString(findtitle);  // Normalize for consistent comparison
 
     bool foundtitle = false;
 
     // Find and rent the movie
     for (auto& d : dvdCollection) {
-        if (findtitle == d.title) {
+        if (findtitle == normalizeString(d.title)) {
             foundtitle = true;
             if (d.nostock > 0) { // Check if stock is available
                 d.nostock--;

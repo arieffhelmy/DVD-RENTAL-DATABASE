@@ -70,5 +70,6 @@ void returnDVD();
 void displayCustomerData();
 void displayRentalHistory();
 bool CustomerID(string& customerID, string& customerName);
+string normalizeString(const string& input);
 
 #endif

@@ -4,8 +4,6 @@
 //MATRIX NUMBER : 23301116
 //FUNCTION : TO RETURN DVD
 
-string normalizeString(const string& input);
-
 void returnDVD() {
     string customerID, customerName, findtitle, rentalperiod, Return, custID, line;
     string rentCustomerID, rentTitle, rentDate, returnDate, status;
@@ -55,7 +53,6 @@ void returnDVD() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
     getline(cin, findtitle);  // Read movie title
     findtitle = normalizeString(findtitle);  // Normalize for consistent comparison
-    cout << "Movie title entered: '" << findtitle << "'" << endl;
 
     // Open RentHistory.csv to find and update the return record
     infile.open("RentHistory.csv");
@@ -177,6 +174,6 @@ string normalizeString(const string& input) {
     string result = input;
     result.erase(result.find_last_not_of(" \n\r\t") + 1);  // Trim trailing spaces
     result.erase(0, result.find_first_not_of(" \n\r\t"));  // Trim leading spaces
-    transform(result.begin(), result.end(), result.begin(), ::tolower);  // Convert to lowercase
+    transform(result.begin(), result.end(), result.begin(), ::toupper);  // Convert to lowercase
     return result;
 }
