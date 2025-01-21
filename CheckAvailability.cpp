@@ -63,7 +63,7 @@ void CheckAvailability() {
         cout << "You can try by finding a specific genre. \n\n";
 
         // Ask for genre if title not found
-        cout << "What is the genre of the movie (Action, Fantasy, Romance, Horror, Comedy): ";
+        cout << "What is the genre of the movie (Action, Drama, Fantasy, Romance, Horror, Comedy): ";
         cin >> genre;
         genre = normalizeString(genre);  // Normalize for consistent comparison
 

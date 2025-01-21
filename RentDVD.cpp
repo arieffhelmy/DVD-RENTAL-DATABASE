@@ -18,7 +18,6 @@ void rentDVD() {
 
     // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
-        cout << "Cannot proceed with DVD rental due to invalid customer ID." << endl;
         return;
     }
 
@@ -29,7 +28,7 @@ void rentDVD() {
     file.open("DVD_Rental_Database.csv", ios::in);
 
     if (file.fail()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv." << '\n';
+        cout << "ERROR" << '\n';
         return;
     }
 
@@ -83,7 +82,7 @@ void rentDVD() {
     file.open("DVD_Rental_Database.csv", ios::out | ios::trunc);
 
     if (file.fail()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << '\n';
+        cout << "ERROR" << '\n';
         return;
     }
 
@@ -129,7 +128,7 @@ bool CustomerID(string& customerID, string& customerName) {
     fstream file("customers.csv", ios::in | ios::out);
 
     if (file.fail()) {
-        cout << "ERROR: Unable to open the file." << '\n';
+        cout << "ERROR" << '\n';
         return false;
     }
 
@@ -149,7 +148,7 @@ bool CustomerID(string& customerID, string& customerName) {
         getline(ss, customer.customerID, ',');
 
         // Check if the customerID matches
-        if (findcustomerID == customer.customerID) {
+        if (normalizeString(findcustomerID) == customer.customerID) {
             foundcustomerID = true;
             customerID = findcustomerID; // Update customerID
             customerName = customer.name; // Update customerName

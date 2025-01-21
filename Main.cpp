@@ -43,7 +43,7 @@ int main() {
             displayRentalHistory(); 
             break;
         case 9:
-            //cout << "Exiting. Thank you for using our system.\n";
+            cout << "See you again!\n";
             break;
         default:
             cout << "\nInvalid choice! Please try again.\n";

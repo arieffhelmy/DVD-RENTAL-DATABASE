@@ -16,7 +16,6 @@ void returnDVD() {
 
     // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
-        cout << "Cannot proceed with DVD return due to invalid customer ID." << endl;
         return;
     }
 
@@ -25,7 +24,7 @@ void returnDVD() {
     // Display current rentals for the customer (only those that haven't been returned yet)
     ifstream infile("RentHistory.csv");
     if (!infile.is_open()) {
-        cout << "ERROR: Unable to open RentHistory.csv." << endl;
+        cout << "ERROR" << endl;
         return;
     }
 
@@ -57,7 +56,7 @@ void returnDVD() {
     // Open RentHistory.csv to find and update the return record
     infile.open("RentHistory.csv");
     if (!infile.is_open()) {
-        cout << "ERROR: Unable to open RentHistory.csv." << endl;
+        cout << "ERROR" << endl;
         return;
     }
 
@@ -104,7 +103,7 @@ void returnDVD() {
     // Write updated rent history to file
     ofstream updatedRentHistory("RentHistory.csv", ios::out | ios::trunc);
     if (!updatedRentHistory.is_open()) {
-        cout << "ERROR: Unable to open RentHistory.csv for writing." << endl;
+        cout << "ERROR" << endl;
         return;
     }
 
@@ -123,7 +122,7 @@ void returnDVD() {
     // Open DVD_Rental_Database.csv and preserve the header
     ifstream dvdFile("DVD_Rental_Database.csv");
     if (!dvdFile.is_open()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv." << endl;
+        cout << "ERROR" << endl;
         return;
     }
 
@@ -159,7 +158,7 @@ void returnDVD() {
     // Write updated content back to DVD_Rental_Database.csv
     ofstream updatedDVDFile("DVD_Rental_Database.csv", ios::out | ios::trunc);
     if (!updatedDVDFile.is_open()) {
-        cout << "ERROR: Unable to open DVD_Rental_Database.csv for writing." << endl;
+        cout << "ERROR" << endl;
         return;
     }
 
