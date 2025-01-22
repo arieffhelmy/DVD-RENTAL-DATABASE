@@ -19,7 +19,10 @@ void returnDVD() {
         return;
     }
 
-    cout << "\n-------------------" << "\nCustomer ID: " << customerID << "\nCustomer Name: " << customerName << "\n-------------------" << endl;
+    cout << "\n-------------------";
+    cout << "\nCustomer ID: " << customerID;
+    cout << "\nCustomer Name: " << customerName;
+    cout  << "\n-------------------" << endl;
 
     // Display current rentals for the customer (only those that haven't been returned yet)
     ifstream infile("RentHistory.csv");
@@ -28,7 +31,10 @@ void returnDVD() {
         return;
     }
 
-    cout << "\nCurrent Rentals:\n";
+    cout << "\nCurrent Rentals:\n\n";
+
+    bool currentrentals = false;
+
     while (getline(infile, Return)) {
     stringstream ss(Return);
     getline(ss, rentCustomerID, ',');
@@ -39,10 +45,20 @@ void returnDVD() {
     getline(ss, status, ',');
 
     // Only display rentals where the return date is empty (i.e., not returned)
-    if (rentCustomerID == customerID && returnDate.empty()) {
-        cout << "Movie title: " << rentTitle << "\nRent Date: " << rentDate
-             << "\nRental Period: " << status << "\n-------------------" << endl;
+    if (rentCustomerID == normalizeString(customerID) && returnDate.empty()) {
+        currentrentals = true;
+        
+        cout << "Movie title: " << rentTitle;
+        cout << "\nRent Date: " << rentDate;
+        cout << "\nRental Period: " << status;
+        cout << "\n-------------------" << endl;
     }
+    }
+
+    if (!currentrentals)
+    {
+        cout << "No current rentals for this customer ID." << endl;
+        return;
     }
     infile.close();
 
@@ -51,7 +67,6 @@ void returnDVD() {
     cout << "What is the name of the movie: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
     getline(cin, findtitle);  // Read movie title
-    findtitle = normalizeString(findtitle);  // Normalize for consistent comparison
 
     // Open RentHistory.csv to find and update the return record
     infile.open("RentHistory.csv");
@@ -69,7 +84,7 @@ void returnDVD() {
         getline(ss, returnDate, ',');
         getline(ss, status, ',');
 
-        if (rentCustomerID == customerID && normalizeString(rentTitle) == findtitle && returnDate.empty()) {
+        if (rentCustomerID == normalizeString(customerID) && normalizeString(rentTitle) == normalizeString(findtitle) && returnDate.empty()) {
             recordFound = true;
 
             // Parse the rent date
@@ -141,7 +156,7 @@ void returnDVD() {
         getline(ss, year, ',');
         ss >> stock;
 
-        if (normalizeString(title) == findtitle) {
+        if (normalizeString(title) == normalizeString(findtitle)) {
             foundtitle = true;
             stock++;  // Increment the stock
         }
