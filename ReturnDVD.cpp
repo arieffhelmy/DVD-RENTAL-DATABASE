@@ -113,10 +113,10 @@ void returnDVD() {
     updatedRentHistory.close();
 
     if (!recordFound) {
-        cout << "No matching rental record found for '" << findtitle << "' and customer ID: " << customerID << "." << endl;
+        cout << "\nNo matching rental record found for '" << findtitle << "' and customer ID: " << customerID << "." << endl;
         return;
     } else {
-        cout << "Return record updated successfully for '" << findtitle << "'." << endl;
+        cout << "\nReturn record updated successfully for '" << findtitle << "'." << endl;
     }
 
     // Open DVD_Rental_Database.csv and preserve the header
@@ -165,7 +165,7 @@ void returnDVD() {
     updatedDVDFile << updatedContent.str();  // Write the entire updated content, including the header
     updatedDVDFile.close();
 
-    cout << "The stock for '" << findtitle << "' has been updated." << endl;
+    cout << "The stock for " << findtitle << " has been updated." << endl;
 }
 
 // Utility Function: Normalize String

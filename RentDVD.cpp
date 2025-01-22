@@ -68,10 +68,10 @@ void rentDVD() {
     }
 
     if (!foundtitle) {
-        cout << "Movie not found: " << findtitle << '\n';
+        cout << "\nMovie not found: " << findtitle << '\n';
         return;
     } else {
-        cout << "The stock for '" << findtitle << "' has been updated." << '\n';
+        cout << "\nThe stock for '" << findtitle << "' has been updated." << '\n';
     }
 
     // Get rental period (number of days to rent the movie)
@@ -110,9 +110,9 @@ void rentDVD() {
     if (output.is_open()) {
         output << customerID << "," << customerName << "," << findtitle << "," << rental.rentdate << "," << "," << rental.rentalPeriod << endl;  // Leave return date empty for now
 
-        cout << "Data written to RentHistory.csv successfully." << endl;
+        cout << "\nData written to RentHistory.csv successfully." << endl;
     } else {
-        cout << "Error opening RentHistory.csv." << endl;
+        cout << "\nError opening RentHistory.csv." << endl;
     }
 
     output.close();
