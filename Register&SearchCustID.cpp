@@ -135,15 +135,14 @@ void searchCustomer()
 
     string findname, findphone;
 
-    cout << "Customer name : ";
+    cout << "Enter Customer name : ";
     getline(cin, findname);
-    normalizeString(findname);
 
     bool foundname = false;
 
     for (const auto& customer : CustomerID) 
     {
-        if (findname == customer.name) 
+        if (normalizeString(findname) == normalizeString(customer.name)) 
         {
             foundname = true;
             cout << "\nName: " << customer.name << endl;
@@ -159,7 +158,7 @@ void searchCustomer()
         cout << "This name is not found: " << findname << endl;
         cout << "You can try by searching with phone number." << endl;
 
-        cout << "What is the your phone number? > ";
+        cout << "Enter Phone number: ";
         cin >> findphone;
 
     bool foundphone = false;
