@@ -98,7 +98,7 @@ void registerCustomer()
     
     for (const auto& c : customers)
     {
-        op << c.name << "," 
+        op << normalizeString(c.name) << "," 
            << c.phone << "," 
            << c.email << "," 
            << c.customerID << endl;
