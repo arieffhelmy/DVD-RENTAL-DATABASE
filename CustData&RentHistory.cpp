@@ -1,7 +1,12 @@
 #include "Header.hpp"
 
+//NAME: DANIEL TOH KAI YANG
+//MATRIX NUMBER: 
+//FUNCTION: TO DISPLAY ALL CUSTOMER DATA AND TO DISPLAY ALL RENTAL HISTORY FROM CSV FILE TO TERMINAL
 
-void displayCustomerData() {
+//FUNCTION : TO DISPLAY ALL CUSTOMER DATA FROM CSV FILE TO TERMINAL
+void displayCustomerData() 
+{
     vector<Customer> customers;
 
     Customer customer;
@@ -10,17 +15,17 @@ void displayCustomerData() {
 
     ifstream input("customers.csv");
 
-    if (!input.is_open()) {
+    if (!input.is_open()) 
+    {
         cout << "Cannot open the file." << '\n';
         return;
     }
 
 
-    // Skip the header row (if present)
     getline(input, header);
 
-    // Read customer data from the file
-    while (getline(input, header)) {
+    while (getline(input, header)) 
+    {
         stringstream ss(header);
 
         getline(ss, customer.name, ',');
@@ -45,8 +50,9 @@ void displayCustomerData() {
 }
 
 
-
-void displayRentalHistory() {
+//FUNCTION : TO DISPLAY ALL RENTAL HISTORY FROM CSV FILE TO TERMINAL
+void displayRentalHistory() 
+{
     vector<Rental> rentalHistory;
     vector<DVD> dvdCollection;
     vector<Customer> customers;
@@ -59,24 +65,23 @@ void displayRentalHistory() {
 
     ifstream input("RentHistory.csv");
 
-    if (!input.is_open()) {
+    if (!input.is_open()) 
+    {
         cout << "Cannot open the file." << '\n';
         return;
     }
 
-    
-    // Skip the header row (if present)
     getline(input, header);
 
-    // Read customer data from the file
-    while (getline(input, header)) {
+    while (getline(input, header)) 
+    {
         stringstream ss(header);
 
-        getline(ss, customer.customerID, ','); // Date field
-        getline(ss, customer.name, ','); // Customer name
-        getline(ss, dvd.title, ','); // Customer ID
-        getline(ss, rental.Rentdate, ','); // Movie title
-        getline(ss, rental.Returndate, ','); // Movie title
+        getline(ss, customer.customerID, ','); 
+        getline(ss, customer.name, ',');
+        getline(ss, dvd.title, ',');
+        getline(ss, rental.Rentdate, ','); 
+        getline(ss, rental.Returndate, ',');
 
         // Add to respective vectors
         rentalHistory.push_back(rental);
@@ -86,9 +91,10 @@ void displayRentalHistory() {
 
     input.close();
 
-    // Display all customer data
     cout << "\nRental history:\n";
-    for (size_t i = 0; i < customers.size(); ++i) {
+
+    for (size_t i = 0; i < customers.size(); ++i) 
+    {
         cout << "\nName: " << customers[i].name << '\n';
         cout << "Customer ID: " << customers[i].customerID << '\n';
         cout << "Movie Title: " << dvdCollection[i].title << '\n';

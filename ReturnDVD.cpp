@@ -2,8 +2,9 @@
 
 //NAME : NURUL AMIRAH BINTI MOHAMAD YUSOFF
 //MATRIX NUMBER : 23301116
-//FUNCTION : TO RETURN DVD
+//FUNCTION : TO RETURN DVD AND TO NORMALIZE STRING BECOMES UPPERCASE
 
+//FUNCTION : TO RETURN DVD
 void returnDVD() {
     string customerID, customerName, findtitle, rentalperiod, Return, custID, line;
     string rentCustomerID, rentTitle, rentDate, returnDate, status;
@@ -14,7 +15,6 @@ void returnDVD() {
     vector<string> rentHistoryReturn;
     bool recordFound = false, foundtitle = false;
 
-    // Get customer ID and validate it
     if (!CustomerID(customerID, customerName)) {
         return;
     }
@@ -24,9 +24,11 @@ void returnDVD() {
     cout << "\nCustomer Name: " << customerName;
     cout  << "\n-------------------" << endl;
 
-    // Display current rentals for the customer (only those that haven't been returned yet)
+    // Display current rentals for the customer for those that haven't returned the dvd yet
     ifstream infile("RentHistory.csv");
-    if (!infile.is_open()) {
+    
+    if (!infile.is_open()) 
+    {
         cout << "ERROR" << endl;
         return;
     }
@@ -35,24 +37,26 @@ void returnDVD() {
 
     bool currentrentals = false;
 
-    while (getline(infile, Return)) {
-    stringstream ss(Return);
-    getline(ss, rentCustomerID, ',');
-    getline(ss, customerName, ',');
-    getline(ss, rentTitle, ',');
-    getline(ss, rentDate, ',');
-    getline(ss, returnDate, ',');
-    getline(ss, status, ',');
+    while (getline(infile, Return)) 
+    {
+        stringstream ss(Return);
+        getline(ss, rentCustomerID, ',');
+        getline(ss, customerName, ',');
+        getline(ss, rentTitle, ',');
+        getline(ss, rentDate, ',');
+        getline(ss, returnDate, ',');
+        getline(ss, status, ',');
 
-    // Only display rentals where the return date is empty (i.e., not returned)
-    if (rentCustomerID == normalizeString(customerID) && returnDate.empty()) {
-        currentrentals = true;
-        
-        cout << "Movie title: " << rentTitle;
-        cout << "\nRent Date: " << rentDate;
-        cout << "\nRental Period: " << status;
-        cout << "\n-------------------" << endl;
-    }
+        // Only display rentals where the return date is empty
+        if (rentCustomerID == normalizeString(customerID) && returnDate.empty()) 
+        {
+            currentrentals = true;
+            
+            cout << "Movie title: " << rentTitle;
+            cout << "\nRent Date: " << rentDate;
+            cout << "\nRental Period: " << status;
+            cout << "\n-------------------" << endl;
+        }
     }
 
     if (!currentrentals)
@@ -63,19 +67,18 @@ void returnDVD() {
     infile.close();
 
 
-    // Prompt user to enter the movie title
     cout << "What is the name of the movie: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-    getline(cin, findtitle);  // Read movie title
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+    getline(cin, findtitle); 
 
-    // Open RentHistory.csv to find and update the return record
     infile.open("RentHistory.csv");
     if (!infile.is_open()) {
         cout << "ERROR" << endl;
         return;
     }
 
-    while (getline(infile, Return)) {
+    while (getline(infile, Return)) 
+    {
         stringstream ss(Return);
         getline(ss, rentCustomerID, ',');
         getline(ss, customerName, ',');
@@ -84,6 +87,7 @@ void returnDVD() {
         getline(ss, returnDate, ',');
         getline(ss, status, ',');
 
+        //To determine the return status and update return date
         if (rentCustomerID == normalizeString(customerID) && normalizeString(rentTitle) == normalizeString(findtitle) && returnDate.empty()) {
             recordFound = true;
 
@@ -115,38 +119,46 @@ void returnDVD() {
     }
     infile.close();
 
-    // Write updated rent history to file
     ofstream updatedRentHistory("RentHistory.csv", ios::out | ios::trunc);
-    if (!updatedRentHistory.is_open()) {
+    if (!updatedRentHistory.is_open()) 
+    {
         cout << "ERROR" << endl;
         return;
     }
 
-    for (const auto& record : rentHistoryReturn) {
+    for (const auto& record : rentHistoryReturn) 
+    {
         updatedRentHistory << record << '\n';
     }
     updatedRentHistory.close();
 
-    if (!recordFound) {
+    if (!recordFound) 
+    {
         cout << "\nNo matching rental record found for '" << findtitle << "' and customer ID: " << customerID << "." << endl;
         return;
-    } else {
+    } 
+    else 
+    {
         cout << "\nReturn record updated successfully for '" << findtitle << "'." << endl;
     }
 
-    // Open DVD_Rental_Database.csv and preserve the header
+    
     ifstream dvdFile("DVD_Rental_Database.csv");
-    if (!dvdFile.is_open()) {
+    
+    if (!dvdFile.is_open()) 
+    {
         cout << "ERROR" << endl;
         return;
     }
 
     string header;
-    getline(dvdFile, header);  // Read and store the header separately
 
-    updatedContent << header << '\n';  // Add the header back to the updated content
+    getline(dvdFile, header);  
 
-    while (getline(dvdFile, line)) {
+    updatedContent << header << '\n';  
+
+    while (getline(dvdFile, line)) 
+    {
         stringstream ss(line);
         string title, genre, year;
         int stock;
@@ -156,38 +168,43 @@ void returnDVD() {
         getline(ss, year, ',');
         ss >> stock;
 
-        if (normalizeString(title) == normalizeString(findtitle)) {
+        if (normalizeString(title) == normalizeString(findtitle)) 
+        {
             foundtitle = true;
-            stock++;  // Increment the stock
+            stock++;  
         }
 
         updatedContent << title << "," << genre << "," << year << "," << stock << '\n';
     }
     dvdFile.close();
 
-    if (!foundtitle) {
+    if (!foundtitle) 
+    {
         cout << "Movie not found: " << findtitle << '\n';
         return;
     }
 
-    // Write updated content back to DVD_Rental_Database.csv
+
     ofstream updatedDVDFile("DVD_Rental_Database.csv", ios::out | ios::trunc);
-    if (!updatedDVDFile.is_open()) {
+    if (!updatedDVDFile.is_open()) 
+    {
         cout << "ERROR" << endl;
         return;
     }
 
-    updatedDVDFile << updatedContent.str();  // Write the entire updated content, including the header
+    updatedDVDFile << updatedContent.str(); 
     updatedDVDFile.close();
 
     cout << "The stock for " << findtitle << " has been updated." << endl;
 }
 
-// Utility Function: Normalize String
-string normalizeString(const string& input) {
+
+//FUNCTION : TO NORMALIZE STRING BECOMES UPPERCASE
+string normalizeString(const string& input) 
+{
     string result = input;
-    result.erase(result.find_last_not_of(" \n\r\t") + 1);  // Trim trailing spaces
-    result.erase(0, result.find_first_not_of(" \n\r\t"));  // Trim leading spaces
-    transform(result.begin(), result.end(), result.begin(), ::toupper);  // Convert to lowercase
+    result.erase(result.find_last_not_of(" \n\r\t") + 1);  //trim
+    result.erase(0, result.find_first_not_of(" \n\r\t"));  //trim
+    transform(result.begin(), result.end(), result.begin(), ::toupper);  
     return result;
 }

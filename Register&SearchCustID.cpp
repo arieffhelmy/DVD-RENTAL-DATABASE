@@ -2,42 +2,18 @@
 
 //NAME: TEEN JUN WEN
 //MATRIX NUMBER: 23301879
-//FUNCTION: TO REGISTER AND SEARCH CUSTOMER ID
-
-string generateCustomerID();
-vector<Customer> customers;
-
-string generateCustomerID() {
-    if (customers.empty()) {
-        return "CUST1";  // Start from "CUST1" if no customers exist
-    }
-
-    // Get the last customer ID
-    string latestCustomerID = customers.back().customerID;
-
-    // Ensure that the ID has the correct format (i.e., starts with "CUST")
-    if (latestCustomerID.substr(0, 4) == "CUST") {
-        try {
-            int customerid = stoi(latestCustomerID.substr(4));  // Extract the numeric part of the ID
-            
-            return "CUST" + to_string(customerid + 1);  // Increment the ID
-        } catch (const std::invalid_argument& e) {
-            // Handle case where the conversion fails
-            cout << "Error: Invalid customer ID format" << endl;
-            return "CUST1";  // Default to "CUST1" in case of an invalid ID format
-        }
-    }
-    return "CUST1";
-}
+//FUNCTION: TO REGISTER A NEW CUSTOMER, TO SEARCH CUSTOMER ID AND TO GENERATE CUSTOMER ID
 
 
+//FUNCTION : TO REGISTER A NEW CUSTOMER
 void registerCustomer()
 {
-    // Clear the existing customers vector
+    vector<Customer> customers;
+
     customers.clear();
 
-    // Read existing customers from the file
     ifstream ip("customers.csv");
+
     if (!ip.is_open()) 
     {
         cout << "ERROR: Unable to open the file for reading." << endl;
@@ -46,6 +22,7 @@ void registerCustomer()
 
     Customer customer;
     string line;
+
     while (getline(ip, line))
     {
         stringstream ss(line);
@@ -57,7 +34,6 @@ void registerCustomer()
     }
     ip.close();
 
-    // Collect new customer details
     cout << "Enter name (in uppercase): ";
     getline(cin, customer.name);
     normalizeString(customer.name);
@@ -82,14 +58,12 @@ void registerCustomer()
         }
     }
 
-    // Add the new customer to the vector
     customers.push_back(customer);
 
-    // Confirm registration
     cout << "Customer registered with ID: " << customer.customerID << endl;
 
-    // Write all customers to the file
     ofstream op("customers.csv");
+
     if (!op.is_open()) 
     {
         cout << "ERROR: Unable to open the file for writing." << endl;
@@ -106,9 +80,14 @@ void registerCustomer()
     op.close();
 }
 
+
+//FUNCTION : TO SEARCH CUSTOMER ID
 void searchCustomer() 
 {
     vector<Customer> CustomerID;
+    vector<Customer> customers;
+
+    string line,findname, findphone;
     ifstream ip("customers.csv");
 
     if (!ip.is_open()) 
@@ -117,7 +96,7 @@ void searchCustomer()
         return;
     }
 
-    string line;
+
     getline(ip, line);
 
     while (getline(ip, line)) 
@@ -132,8 +111,6 @@ void searchCustomer()
 
         CustomerID.push_back(customer);
     }
-
-    string findname, findphone;
 
     cout << "Enter Customer name : ";
     getline(cin, findname);
@@ -186,3 +163,33 @@ void searchCustomer()
     ip.close();
 }
 
+
+//FUNCTION : TO GENERATE CUSTOMER ID
+string generateCustomerID() 
+{
+    vector<Customer> customers;
+
+    // Start from "CUST1" if no customers exist
+    if (customers.empty()) 
+    {
+        return "CUST1";  
+    }
+
+    string latestCustomerID = customers.back().customerID;
+
+    // Ensure that the ID has the correct format
+    if (latestCustomerID.substr(0, 4) == "CUST") 
+    {
+        try 
+        {
+            int customerid = stoi(latestCustomerID.substr(4)); 
+            
+            return "CUST" + to_string(customerid + 1);
+        } catch (const std::invalid_argument& e) 
+        {
+            cout << "Error: Invalid customer ID format" << endl;
+            return "CUST1"; 
+        }
+    }
+    return "CUST1";
+}

@@ -16,7 +16,8 @@
 using namespace std;
 
 // DVD Class
-class DVD {
+class DVD 
+{
 public:
     string title;
     string genre;
@@ -24,10 +25,11 @@ public:
     int nostock;
 
     // Constructor
-    DVD() = default; // Let the compiler generate it
+    DVD() = default;
 };
 
-class Customer {
+class Customer 
+{
 public:
     string name;
     string customerID;
@@ -35,12 +37,13 @@ public:
     string email;
 
     // Constructor
-    Customer() = default; // Let the compiler generate it
+    Customer() = default;
 };
 
 
 // Rental Class
-class Rental {
+class Rental 
+{
 public:
     string DVDTitle;
     string returnStatus, Rentdate, Returndate;
@@ -53,7 +56,7 @@ public:
     string returndate= to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" +to_string(1900 + ltm->tm_year);
 
     // Constructor
-    Rental() = default; // Let the compiler generate it
+    Rental() = default;
 };
 
 extern vector<DVD> dvdCollection;
@@ -72,5 +75,6 @@ void displayCustomerData();
 void displayRentalHistory();
 bool CustomerID(string& customerID, string& customerName);
 string normalizeString(const string& input);
+string generateCustomerID();
 
 #endif

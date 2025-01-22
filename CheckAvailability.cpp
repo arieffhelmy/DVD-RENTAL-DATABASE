@@ -4,7 +4,8 @@
 //MATRIX NUMBER: 23303466
 //FUNCTION: TO CHECK THE AVAILABILITY OF DVD BY SEARCHING SPECIFIC GENRE
 
-void CheckAvailability() {
+void CheckAvailability() 
+{
     vector<DVD> dvdCollection;
 
     DVD dvd;
@@ -20,15 +21,12 @@ void CheckAvailability() {
         return;
     }
 
-    // Skip the header row (if present)
     getline(file, top);
 
-    // Populate dvdCollection by reading the file
     while (getline(file, top)) 
     {
         stringstream ss(top);
         
-        // Assuming the CSV has columns: Title, Genre, Year, Stock
         getline(ss, dvd.title, ',');
         getline(ss, dvd.genre, ',');
         getline(ss, dvd.year, ',');
@@ -61,10 +59,9 @@ void CheckAvailability() {
         cout << "No movies found for the title: " << title << '\n';
         cout << "You can try by finding a specific genre. \n\n";
 
-        // Ask for genre if title not found
         cout << "What is the genre of the movie (Action, Drama, Fantasy, Romance, Horror, Comedy): ";
         cin >> genre;
-        genre = normalizeString(genre);  // Normalize for consistent comparison
+        genre = normalizeString(genre); 
 
         bool foundgenre = false;
 
