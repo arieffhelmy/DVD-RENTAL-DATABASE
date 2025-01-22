@@ -88,6 +88,14 @@ void AddDVDandStock()
 
                     cout << "Enter the number of stocks available: ";
                     cin >> dvd.nostock;
+                    cin.ignore();
+        
+                    if (cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Invalid! Please enter number only.\n";
+                    }
 
                     // Write the new DVD information to the file
                     output << dvd.title << "," 
@@ -141,11 +149,18 @@ void AddDVDandStock()
                 if (normalizeString(existingDVD.title) == normalizeString(dvd.title)) 
                 {
                     founddvd = true;
+                    int addedStock;
 
                     cout << "Enter the number of stocks to add: ";
-                    int addedStock;
                     cin >> addedStock;
-                    cin.ignore();  // To ignore the newline left by cin
+                    cin.ignore();
+        
+                    if (cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Invalid! Please enter number only.\n";
+                    }
 
                     existingDVD.nostock += addedStock; // Update only the stock
                     break;
