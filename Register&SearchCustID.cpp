@@ -68,6 +68,8 @@ void registerCustomer()
     cout << "Enter email: ";
     getline(cin, customer.email);
 
+    transform(customer.email.begin(), customer.email.end(), customer.email.begin(), ::tolower);
+
     customer.customerID = generateCustomerID();
 
     // Check if the customer already exists

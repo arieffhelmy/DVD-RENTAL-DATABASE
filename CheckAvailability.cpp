@@ -39,14 +39,13 @@ void CheckAvailability() {
 
     cout << "What is the name of the movie: ";
     getline(cin, title);
-    title = normalizeString(title);  // Normalize for consistent comparison
 
     bool foundtitle = false;
 
     // Searching by title
     for (const auto& dvd : dvdCollection) 
     {
-        if (title == normalizeString(dvd.title)) 
+        if (normalizeString(title) == normalizeString(dvd.title)) 
         {
             foundtitle = true;
             cout << "\nName: " << dvd.title << '\n';
