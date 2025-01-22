@@ -11,7 +11,7 @@ void displayCustomerData() {
     ifstream input("customers.csv");
 
     if (!input.is_open()) {
-        cout << "ERROR: Unable to open the file." << '\n';
+        cout << "Cannot open the file." << '\n';
         return;
     }
 
@@ -60,7 +60,7 @@ void displayRentalHistory() {
     ifstream input("RentHistory.csv");
 
     if (!input.is_open()) {
-        cout << "ERROR: Unable to open the file." << '\n';
+        cout << "Cannot open the file." << '\n';
         return;
     }
 

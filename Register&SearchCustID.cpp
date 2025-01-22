@@ -133,7 +133,7 @@ void searchCustomer()
 
     string findname, findphone;
 
-    cout << "What is customer name? > ";
+    cout << "Customer name : ";
     getline(cin, findname);
     normalizeString(findname);
 
