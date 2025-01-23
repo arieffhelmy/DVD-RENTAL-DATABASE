@@ -168,6 +168,27 @@ void searchCustomer()
 string generateCustomerID() 
 {
     vector<Customer> customers;
+    ifstream ip("DATA FILES/customers.csv");
+
+    if (!ip.is_open()) 
+    {
+        cout << "ERROR: Unable to open the file for reading." << endl;
+        return "CUST1";
+    }
+
+    Customer customer;
+    string line;
+
+    while (getline(ip, line))
+    {
+        stringstream ss(line);
+        getline(ss, customer.name, ',');
+        getline(ss, customer.phone, ',');
+        getline(ss, customer.email, ',');
+        getline(ss, customer.customerID);
+        customers.push_back(customer);
+    }
+    ip.close();
 
     // Start from "CUST1" if no customers exist
     if (customers.empty()) 
