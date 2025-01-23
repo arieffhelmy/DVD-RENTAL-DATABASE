@@ -4,6 +4,7 @@
 //MATRIX NUMBER: 23303466
 //FUNCTION: TO DISPLAY MAIN MENU WITH OPTIONS 1 TO 9
 
+
 void displayMenu() 
 {
     cout << "\n--- DVD Rental System ---\n\n";
