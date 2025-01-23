@@ -14,7 +14,7 @@ void CheckAvailability()
     string genre, title;
     string top;
 
-    ifstream file("DVD_Rental_Database.csv");
+    ifstream file("DATA/DVD_Rental_Database.csv");
 
     if (file.fail()) 
     {

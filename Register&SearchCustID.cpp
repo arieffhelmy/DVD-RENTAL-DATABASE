@@ -12,7 +12,7 @@ void registerCustomer()
 
     customers.clear();
 
-    ifstream ip("customers.csv");
+    ifstream ip("DATA/customers.csv");
 
     if (!ip.is_open()) 
     {
@@ -62,7 +62,7 @@ void registerCustomer()
 
     cout << "Customer registered with ID: " << customer.customerID << endl;
 
-    ofstream op("customers.csv");
+    ofstream op("DATA/customers.csv");
 
     if (!op.is_open()) 
     {
@@ -88,7 +88,7 @@ void searchCustomer()
     vector<Customer> customers;
 
     string line,findname, findphone;
-    ifstream ip("customers.csv");
+    ifstream ip("DATA/customers.csv");
 
     if (!ip.is_open()) 
     {
