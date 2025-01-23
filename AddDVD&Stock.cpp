@@ -37,7 +37,7 @@ void AddDVDandStock()
             {
                 DVD dvd;
 
-                ifstream input("DATA/DVD_Rental_Database.csv");
+                ifstream input("DATA FILES/DVD_Rental_Database.csv");
                 if (input.fail()) 
                 {
                     cout << "The file cannot be opened for reading." << '\n';
@@ -70,7 +70,7 @@ void AddDVDandStock()
                 }
                 else
                 {
-                    ofstream output("DATA/DVD_Rental_Database.csv", ios::app);
+                    ofstream output("DATA FILES/DVD_Rental_Database.csv", ios::app);
                     if (output.fail()) 
                     {
                         cout << "The file cannot be opened for writing." << '\n';
@@ -110,7 +110,7 @@ void AddDVDandStock()
                 fstream inout;
                 string header;
 
-                inout.open("DATA/DVD_Rental_Database.csv", ios::in);
+                inout.open("DATA FILES/DVD_Rental_Database.csv", ios::in);
                 if (inout.is_open()) 
                 {
                     getline(inout, header);
@@ -170,7 +170,7 @@ void AddDVDandStock()
                     continue;
                 }
 
-                inout.open("DATA/DVD_Rental_Database.csv", ios::out | ios::trunc);
+                inout.open("DATA FILES/DVD_Rental_Database.csv", ios::out | ios::trunc);
 
                 if (inout.fail()) 
                 {

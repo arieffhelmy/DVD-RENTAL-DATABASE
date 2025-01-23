@@ -28,7 +28,7 @@ void rentDVD() {
     fstream file;
     string header; 
 
-    file.open("DATA/DVD_Rental_Database.csv", ios::in);
+    file.open("DATA FILES/DVD_Rental_Database.csv", ios::in);
 
     if (file.fail()) 
     {
@@ -86,7 +86,7 @@ void rentDVD() {
     cout << "How many days would you like to rent the movie? ";
     cin >> rental.rentalPeriod;
 
-    file.open("DATA/DVD_Rental_Database.csv", ios::out | ios::trunc);
+    file.open("DATA FILES/DVD_Rental_Database.csv", ios::out | ios::trunc);
 
     if (file.fail()) 
     {
@@ -105,7 +105,7 @@ void rentDVD() {
     // Record rental in RentHistory.csv (including rental period and rental date)
     ofstream output;
 
-    output.open("DATA/RentHistory.csv", ios::app);
+    output.open("DATA FILES/RentHistory.csv", ios::app);
 
     cout << "\n\nCustomerID: " << customerID << '\n'
          << "CustomerName: " << customerName << '\n'
@@ -134,7 +134,7 @@ bool CustomerID(string& customerID, string& customerName)
     Customer customer;
     string findcustomerID, Return;
 
-    fstream file("DATA/cstomers.csv", ios::in | ios::out);
+    fstream file("DATA FILES/customers.csv", ios::in | ios::out);
 
     if (file.fail()) 
     {

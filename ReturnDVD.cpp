@@ -26,7 +26,7 @@ void returnDVD() {
     cout  << "\n-------------------" << endl;
 
     // Display current rentals for the customer for those that haven't returned the dvd yet
-    ifstream infile("DATA/RentHistory.csv");
+    ifstream infile("DATA FILES/RentHistory.csv");
     
     if (!infile.is_open()) 
     {
@@ -72,7 +72,7 @@ void returnDVD() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');  
     getline(cin, findtitle); 
 
-    infile.open("DATA/RentHistory.csv");
+    infile.open("DATA FILES/RentHistory.csv");
 
     if (!infile.is_open()) {
         cout << "ERROR" << endl;
@@ -121,7 +121,7 @@ void returnDVD() {
     }
     infile.close();
 
-    ofstream updatedRentHistory("DATA/RentHistory.csv", ios::out | ios::trunc);
+    ofstream updatedRentHistory("DATA FILES/RentHistory.csv", ios::out | ios::trunc);
     if (!updatedRentHistory.is_open()) 
     {
         cout << "ERROR" << endl;
@@ -145,7 +145,7 @@ void returnDVD() {
     }
 
     
-    ifstream dvdFile("DATA/DVD_Rental_Database.csv");
+    ifstream dvdFile("DATA FILES/DVD_Rental_Database.csv");
     
     if (!dvdFile.is_open()) 
     {
@@ -187,7 +187,7 @@ void returnDVD() {
     }
 
 
-    ofstream updatedDVDFile("DATA/DVD_Rental_Database.csv", ios::out | ios::trunc);
+    ofstream updatedDVDFile("DATA FILES/DVD_Rental_Database.csv", ios::out | ios::trunc);
     if (!updatedDVDFile.is_open()) 
     {
         cout << "ERROR" << endl;

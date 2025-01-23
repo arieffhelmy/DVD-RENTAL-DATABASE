@@ -14,7 +14,7 @@ void displayCustomerData()
 
     string header;
 
-    ifstream input("DATA/customers.csv");
+    ifstream input("DATA FILES/customers.csv");
 
     if (!input.is_open()) 
     {
@@ -64,7 +64,7 @@ void displayRentalHistory()
 
     string header;
 
-    ifstream input("DATA/RentHistory.csv");
+    ifstream input("DATA FILES/RentHistory.csv");
 
     if (!input.is_open()) 
     {
